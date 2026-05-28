@@ -42,7 +42,7 @@ export default function PodcastPage() {
           {/* Background image — Frame 3.avif (dark navy) */}
           <div className="absolute inset-0">
             <Image
-              src="/images/GILD PODcats Banner_files/69c52b65285924258f9d85a3_890cd5a1c508425c19134bdc2771c8ad_Frame 3.avif"
+              src="/images/spotify-banner.avif"
               alt=""
               fill
               priority
@@ -245,73 +245,74 @@ export default function PodcastPage() {
                   </a>
 
                   {/* Content */}
-                  <div className="flex flex-1 flex-col p-6">
+                  <div className="flex flex-1 flex-col p-5">
                     {/* Guest + duration */}
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-[13px] font-medium text-[#111827]">{episode.guest}</p>
-                        <p className="mt-0.5 text-[11px] text-[#6b7280]">{episode.guestTitle}</p>
-                      </div>
-                      <span className="shrink-0 text-[11px] font-medium text-[#9ca3af]">
-                        {episode.duration}
-                      </span>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-[13px] font-semibold text-[#111827]">{episode.guest}</p>
+                      <span className="shrink-0 text-[12px] text-[#6b7280]">{episode.duration}</span>
                     </div>
 
                     {/* Date */}
-                    <p className="mt-4 text-[10px] font-medium uppercase tracking-[0.22em] text-[#9ca3af]">
+                    <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.18em] text-[#9ca3af]">
                       {episode.published}
                     </p>
 
-                    {/* Title */}
-                    <a
-                      href={episode.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <h3 className="mt-2 font-serif text-[17px] leading-[1.35] tracking-[-0.01em] text-[#111827] transition-colors duration-300 hover:text-[#5a9a9b]">
+                    {/* Title with play icon */}
+                    <a href={episode.url} target="_blank" rel="noreferrer">
+                      <h3 className="mt-1.5 flex gap-2 text-[15px] font-semibold leading-[1.4] text-[#111827] transition-colors duration-300 hover:text-[#5a9a9b]">
+                        <span className="mt-0.5 shrink-0 text-[#111827]">▶</span>
                         {episode.title}
                       </h3>
                     </a>
 
                     {/* Description */}
-                    <p className="mt-3 text-[13px] leading-[1.8] text-[#6b7280]">
+                    <p className="mt-2.5 line-clamp-3 text-[13px] leading-[1.75] text-[#6b7280]">
                       {episode.description}
                     </p>
 
                     {/* Tags */}
-                    <div className="mt-4 flex flex-wrap gap-1.5">
+                    <div className="mt-4 flex flex-wrap gap-2">
                       {episode.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="border border-[rgba(90,154,155,0.35)] px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-[#5a9a9b]"
+                          className="rounded-full border border-[#d1e9ea] px-3 py-1 text-[11px] font-medium text-[#5a9a9b]"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
 
-                    {/* Platform links */}
-                    <div className="mt-auto flex items-center gap-4 pt-5 border-t border-[#f3f4f6]">
+                    {/* Platform buttons — black SVG style */}
+                    <div className="mt-auto flex items-center gap-3 pt-5">
                       <a
                         href={episode.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#9ca3af] transition-colors duration-300 hover:text-[#374151]"
+                        className="transition-opacity duration-300 hover:opacity-75"
                         aria-label="Watch on YouTube"
                       >
-                        <YouTubeIcon className="h-3.5 w-3.5 text-[#FF0000]" />
-                        YouTube
+                        <Image
+                          src="/images/69c52506ac8138b8bae35b02_watch_on_youtube_mono_black.svg"
+                          alt="Watch on YouTube"
+                          width={130}
+                          height={36}
+                          className="h-9 w-auto"
+                        />
                       </a>
-                      <span className="text-[#e5e7eb]">·</span>
                       <a
                         href={episode.spotifyUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#9ca3af] transition-colors duration-300 hover:text-[#374151]"
+                        className="transition-opacity duration-300 hover:opacity-75"
                         aria-label="Listen on Spotify"
                       >
-                        <SpotifyIcon className="h-3.5 w-3.5 text-[#1DB954]" />
-                        Spotify
+                        <Image
+                          src="/images/69c52506c929d82c40aaa2d8_listen_on_spotify_mono_black.svg"
+                          alt="Listen on Spotify"
+                          width={130}
+                          height={36}
+                          className="h-9 w-auto"
+                        />
                       </a>
                     </div>
                   </div>
