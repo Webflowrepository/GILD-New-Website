@@ -51,7 +51,7 @@ export default function PodcastPage() {
         <section className="section-shell py-20 md:py-28">
           <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="section-label mb-5">—— 01 · YouTube</p>
+              <p className="section-label mb-5">YouTube</p>
               <h2 className="text-3xl font-semibold text-white md:text-4xl">Watch the episodes.</h2>
             </div>
             <a
@@ -103,7 +103,7 @@ export default function PodcastPage() {
         <section className="section-shell py-20 md:py-28">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
-              <p className="section-label mb-5">—— 02 · Spotify</p>
+              <p className="section-label mb-5">Spotify</p>
               <h2 className="text-3xl font-semibold text-white md:text-4xl">Listen on Spotify.</h2>
               <p className="mt-6 text-base leading-7 text-slate-100">{spotifyShow.description}</p>
               <a

@@ -68,7 +68,7 @@ export function WhatYouGet() {
       </div>
 
       <div className="section-shell py-20 md:py-28">
-        <p className="section-label text-center">—— 03 · What You Get</p>
+        <p className="section-label text-center">What You Get</p>
         <div className="mx-auto max-w-3xl text-center">
           <h3 className="text-3xl font-semibold leading-tight text-white md:text-4xl">
             What you get as a member of GILD.

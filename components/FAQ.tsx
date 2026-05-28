@@ -4,7 +4,7 @@ export function FAQ() {
   return (
     <section id="faq" className="section-pad bg-slate-900">
       <div className="section-shell">
-        <p className="section-label">—— 08 · FAQ</p>
+        <p className="section-label">FAQ</p>
         <div>
           {faqs.map((faq) => (
             <details key={faq.question} className="group border-b border-slate-700">

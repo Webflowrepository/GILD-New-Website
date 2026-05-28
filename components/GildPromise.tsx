@@ -13,7 +13,7 @@ export function GildPromise() {
   return (
     <section className="section-pad bg-slate-900">
       <div className="section-shell">
-        <p className="section-label">—— 06 · Our Promise to You</p>
+        <p className="section-label">Our Promise to You</p>
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <div className="relative aspect-[1.1] overflow-hidden rounded-card bg-slate-800">
             <Image

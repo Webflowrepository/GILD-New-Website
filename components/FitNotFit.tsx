@@ -16,7 +16,7 @@ export function FitNotFit() {
   return (
     <section id="fit" className="section-pad bg-slate-900">
       <div className="section-shell">
-        <p className="section-label">—— 02 · Who It&apos;s For</p>
+        <p className="section-label">Who It&apos;s For</p>
         <div className="relative mb-12 aspect-[2.4] overflow-hidden rounded-card bg-slate-800">
           <Image
             src="/images/698cced70159f31e5d1a0306_DSCF3589%201.avif"

@@ -5,7 +5,7 @@ export function UpcomingForums() {
   return (
     <section id="events" className="section-pad bg-slate-900">
       <div className="section-shell">
-        <p className="section-label">—— 05 · Upcoming Forums</p>
+        <p className="section-label">Upcoming Forums</p>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {forumEvents.map((event) => (
             <a

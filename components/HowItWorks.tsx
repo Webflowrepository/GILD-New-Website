@@ -83,7 +83,7 @@ export function HowItWorks() {
     <section id="how-it-works" ref={sectionRef} className="bg-slate-900 md:h-[360vh]">
       <div className="section-shell py-20 md:sticky md:top-16 md:flex md:min-h-[calc(100vh-64px)] md:flex-col md:justify-center md:py-0">
         <div className="mb-10 md:mb-14">
-          <p className="section-label mb-0">—— 04 · How It Works</p>
+          <p className="section-label mb-0">How It Works</p>
         </div>
 
         <div className="md:hidden">

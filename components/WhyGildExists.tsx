@@ -4,7 +4,7 @@ export function WhyGildExists() {
   return (
     <section id="why" className="section-pad bg-slate-900">
       <div className="section-shell">
-        <p className="section-label">—— 01 · Why GILD Exists</p>
+        <p className="section-label">Why GILD Exists</p>
         <div className="max-w-4xl">
           <p className="font-serif text-2xl leading-10 text-white md:text-[28px]">
             Most professional communities are built by extroverts for extroverts. They

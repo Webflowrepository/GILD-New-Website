@@ -1,4 +1,3 @@
-import { ApplicationForm } from "@/components/ApplicationForm";
 import { Differentiator } from "@/components/Differentiator";
 import { FAQ } from "@/components/FAQ";
 import { FitNotFit } from "@/components/FitNotFit";
@@ -26,7 +25,6 @@ export default function Home() {
         <HowItWorks />
         <UpcomingForums />
         <GildPromise />
-        <ApplicationForm selectedAudience="engineering" />
         <FAQ />
       </main>
       <Footer />
