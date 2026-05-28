@@ -27,6 +27,8 @@ export function Navbar() {
       className={`sticky top-0 z-50 transition-all duration-500 ${
         isScrolled
           ? "border-b border-[rgba(255,248,235,0.07)] bg-[#0a0806]/96 backdrop-blur-md"
+          : isOpen
+          ? "border-b border-[rgba(255,248,235,0.07)] bg-[#0a0806]"
           : "border-b border-transparent bg-transparent"
       }`}
     >
