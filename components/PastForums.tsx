@@ -165,7 +165,7 @@ export function PastForums() {
         <div ref={headerRef} className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="section-label mb-4">Past Forums</p>
-            <p className="max-w-lg font-serif text-[22px] leading-[1.45] text-white/78 lg:text-[24px]">
+            <p className="max-w-2xl font-serif text-[22px] leading-[1.35] text-white/78 md:text-[30px] lg:text-[38px] xl:text-[44px]">
               A record of closed-door conversations with senior AI, engineering, and founder operators.
             </p>
           </div>

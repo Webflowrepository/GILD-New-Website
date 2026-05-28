@@ -84,7 +84,7 @@ export function ApplicationForm() {
         <div className="mx-auto max-w-2xl">
           <div ref={leftRef}>
             <p className="section-label">Apply</p>
-            <h2 className="font-serif text-4xl leading-[1.1] tracking-[-0.015em] text-white md:text-5xl">
+            <h2 className="font-serif text-[36px] leading-[1.05] tracking-[-0.02em] text-white md:text-[56px] lg:text-[72px] xl:text-[82px] 2xl:text-[92px]">
               Apply to the network.
             </h2>
             <p className="mt-6 text-[14px] leading-[1.9] text-white/50">

@@ -143,7 +143,7 @@ export function WhyGildExists() {
             {/* Text block */}
             <div>
               <p className="section-label">Why GILD Exists</p>
-              <h2 className="font-serif text-[34px] font-normal leading-[1.07] tracking-[-0.018em] text-white md:text-[42px] lg:text-[48px]">
+              <h2 className="font-serif text-[36px] font-normal leading-[1.05] tracking-[-0.02em] text-white md:text-[56px] lg:text-[72px] xl:text-[82px] 2xl:text-[92px]">
                 Built for depth,
                 <br className="hidden sm:block" /> not scale.
               </h2>
