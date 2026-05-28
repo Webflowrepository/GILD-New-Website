@@ -24,11 +24,9 @@ export function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "border-b border-[rgba(255,248,235,0.07)] bg-[#0a0806]/96 backdrop-blur-md"
-          : isOpen
-          ? "border-b border-[rgba(255,248,235,0.07)] bg-[#0a0806]"
+      className={`sticky top-0 z-50 ${!isOpen ? "transition-colors duration-500" : ""} ${
+        isScrolled || isOpen
+          ? "border-b border-[rgba(255,248,235,0.07)] bg-[#0a0806] backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       }`}
     >
