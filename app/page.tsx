@@ -1,8 +1,8 @@
 import { Differentiator } from "@/components/Differentiator";
+import { ApplicationForm } from "@/components/ApplicationForm";
 import { FAQ } from "@/components/FAQ";
 import { FitNotFit } from "@/components/FitNotFit";
 import { Footer } from "@/components/Footer";
-import { GildPromise } from "@/components/GildPromise";
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
 import { Navbar } from "@/components/Navbar";
@@ -24,7 +24,7 @@ export default function Home() {
         <WhatYouGet />
         <HowItWorks />
         <UpcomingForums />
-        <GildPromise />
+        <ApplicationForm />
         <FAQ />
       </main>
       <Footer />
