@@ -139,7 +139,7 @@ export function SocialProof() {
             <article
               key={testimonial.name}
               data-card-key={testimonial.name}
-              className={`rounded-card border border-[#17212c] bg-[#05080c] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)] transition duration-500 hover:-translate-y-0.5 hover:border-teal-500/30 ${
+              className={`rounded-card border border-[#101820] bg-[#020406] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.34)] transition duration-500 hover:-translate-y-0.5 hover:border-teal-500/30 ${
                 visibleCards.has(testimonial.name)
                   ? "translate-y-0 opacity-100"
                   : "translate-y-4 opacity-0"
@@ -153,7 +153,8 @@ export function SocialProof() {
                     alt={testimonial.name}
                     width={56}
                     height={56}
-                    className="h-14 w-14 rounded-full object-cover"
+                    unoptimized
+                    className="h-14 w-14 shrink-0 rounded-full object-cover"
                   />
                 ) : (
                   <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-slate-700 text-sm font-medium text-slate-100">
