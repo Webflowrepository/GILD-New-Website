@@ -5,8 +5,8 @@
 :root {
   color-scheme: dark;
   --page-bg: #0d0b09;
-  --accent: #4a8888;
-  --accent-light: #5a9898;
+  --accent: #8fa39d;
+  --accent-light: #a3b5b0;
   background: var(--page-bg);
 }
 
@@ -81,7 +81,7 @@ summary::-webkit-details-marker {
 }
 
 .section-pad {
-  @apply py-24 md:py-36 lg:py-48;
+  @apply py-14 md:py-20 lg:py-28;
 }
 
 .section-label {

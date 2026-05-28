@@ -17,8 +17,8 @@ const config: Config = {
           100: "#b5ada4"
         },
         teal: {
-          500: "#4a8888",
-          400: "#5a9898"
+          500: "#8fa39d",
+          400: "#a3b5b0"
         },
         white: "#FFFFFF"
       },

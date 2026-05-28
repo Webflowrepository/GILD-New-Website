@@ -34,7 +34,7 @@ export function UpcomingForums() {
               <div className="p-7">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <p className="text-2xl font-medium leading-none text-[#4a8888]">
+                    <p className="text-2xl font-medium leading-none text-[#8fa39d]">
                       {event.date}
                     </p>
                     <p className="text-2xl font-medium leading-none text-white/85">

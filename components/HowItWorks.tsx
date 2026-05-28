@@ -95,7 +95,7 @@ export function HowItWorks() {
                 className="rounded-card border border-[rgba(255,248,235,0.07)] bg-[#110f0c] p-7"
               >
                 <div className="flex items-center gap-4">
-                  <p className="text-[42px] font-light leading-none text-[#4a8888]/55">
+                  <p className="text-[42px] font-light leading-none text-[#8fa39d]/55">
                     {step.number}
                   </p>
                   <div className="h-px flex-1 bg-[rgba(255,248,235,0.06)]" />
@@ -117,7 +117,7 @@ export function HowItWorks() {
           <div className="mb-12">
             <div className="h-px bg-[rgba(255,248,235,0.07)]">
               <div
-                className="h-px bg-[#4a8888]/60 transition-[width] duration-300 ease-out"
+                className="h-px bg-[#8fa39d]/60 transition-[width] duration-300 ease-out"
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
@@ -128,7 +128,7 @@ export function HowItWorks() {
                   type="button"
                   className={`h-7 w-7 rounded-full border text-[10px] font-medium transition-all duration-500 ${
                     activeStep === index
-                      ? "border-[#4a8888]/70 bg-[#4a8888]/15 text-[#4a8888]"
+                      ? "border-[#8fa39d]/70 bg-[#8fa39d]/15 text-[#8fa39d]"
                       : "border-[rgba(255,248,235,0.12)] text-white/30"
                   }`}
                   onClick={() => {
@@ -169,7 +169,7 @@ export function HowItWorks() {
                         : "translate-y-2 border-[rgba(255,248,235,0.04)] bg-[#0f0d0b] opacity-25"
                     }`}
                   >
-                    <p className="text-[72px] font-light leading-none text-[#4a8888]/50">
+                    <p className="text-[72px] font-light leading-none text-[#8fa39d]/50">
                       {step.number}
                     </p>
                     <h2 className="mt-12 max-w-2xl font-serif text-4xl leading-[1.15] text-white/92">
