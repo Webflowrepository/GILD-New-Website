@@ -70,37 +70,37 @@ export default function PodcastPage() {
                   leadership, and growth.
                 </p>
 
-                {/* Platform buttons using SVG images from gildhq.com */}
-                <div className="mt-8 flex flex-wrap items-center gap-5">
+                {/* Platform buttons — matching pill style */}
+                <div className="mt-8 flex flex-wrap items-center gap-4">
                   <a
                     href="https://www.youtube.com/@GILDhq"
                     target="_blank"
                     rel="noreferrer"
-                    className="transition-opacity duration-300 hover:opacity-80"
                     aria-label="Watch on YouTube"
+                    className="flex items-center gap-3 rounded-full bg-white/10 px-5 py-3 backdrop-blur-sm transition-all duration-300 hover:bg-white/18"
                   >
-                    <Image
-                      src="/images/GILD PODcats Banner_files/69c4671ae1a5ade096c2e4c0_watch_on_youtube.svg"
-                      alt="Watch on YouTube"
-                      width={160}
-                      height={44}
-                      className="h-11 w-auto"
-                    />
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FF0000]">
+                      <YouTubeIcon className="h-3.5 w-3.5 text-white" />
+                    </span>
+                    <span className="flex flex-col leading-tight">
+                      <span className="text-[10px] font-medium text-white/60">Watch on</span>
+                      <span className="text-[14px] font-semibold text-white">YouTube</span>
+                    </span>
                   </a>
                   <a
                     href={spotifyShow.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="transition-opacity duration-300 hover:opacity-80"
                     aria-label="Listen on Spotify"
+                    className="flex items-center gap-3 rounded-full bg-white/10 px-5 py-3 backdrop-blur-sm transition-all duration-300 hover:bg-white/18"
                   >
-                    <Image
-                      src="/images/GILD PODcats Banner_files/69c52391c4cd90002297f65a_listen_on_spotify-button-white.svg"
-                      alt="Listen on Spotify"
-                      width={160}
-                      height={44}
-                      className="h-11 w-auto"
-                    />
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1DB954]">
+                      <SpotifyIcon className="h-3.5 w-3.5 text-white" />
+                    </span>
+                    <span className="flex flex-col leading-tight">
+                      <span className="text-[10px] font-medium text-white/60">Listen on</span>
+                      <span className="text-[14px] font-semibold text-white">Spotify</span>
+                    </span>
                   </a>
                 </div>
               </div>
