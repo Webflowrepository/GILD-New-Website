@@ -128,29 +128,31 @@ export function WhatYouGet() {
           className="object-cover opacity-30 [filter:saturate(0.75)_contrast(1.1)]"
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,3,2,0.68),rgba(4,3,2,0.76))]" />
-        <div className="section-shell relative z-10 flex min-h-[280px] flex-col items-center justify-center py-20 text-center md:min-h-[360px]">
-          <h2 ref={bannerHeadRef} className="max-w-4xl font-serif text-[30px] leading-[1.18] tracking-[-0.015em] text-white md:text-[42px]">
+        <div className="section-shell relative z-10 flex min-h-[280px] flex-col justify-end pb-16 pt-20 md:min-h-[360px]">
+          <h2 ref={bannerHeadRef} className="max-w-3xl font-serif text-[30px] leading-[1.18] tracking-[-0.015em] text-white md:text-[42px]">
             Apply To The GILD Network
           </h2>
-          <p ref={bannerTextRef} className="mt-7 max-w-xl text-[13px] leading-[1.85] text-white/55 md:text-[14px]">
+          <p ref={bannerTextRef} className="mt-6 max-w-lg text-[13px] leading-[1.85] text-white/55 md:text-[14px]">
             If you&apos;re a senior AI or engineering leader, we&apos;d like to meet you. We
             review every application personally. Tell us who you are, what you&apos;re
             working on, and what would be most valuable to you. We&apos;ll do the rest.
           </p>
-          <button
-            ref={bannerBtnRef}
-            type="button"
-            onClick={() => requestAccess("networking_banner")}
-            className="mt-10 bg-[#5a9a9b] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#4d8889]"
-          >
-            Request Access
-          </button>
+          <div className="mt-8">
+            <button
+              ref={bannerBtnRef}
+              type="button"
+              onClick={() => requestAccess("networking_banner")}
+              className="bg-[#5a9a9b] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-[#4d8889]"
+            >
+              Request Access
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="section-shell py-24 md:py-36">
-        <div ref={headingBlockRef} className="mx-auto max-w-3xl text-center">
-          <p className="section-label text-center">What You Get</p>
+        <div ref={headingBlockRef} className="max-w-2xl">
+          <p className="section-label">What You Get</p>
           <h3 className="font-serif text-[30px] leading-[1.2] tracking-[-0.015em] text-white md:text-[40px]">
             What you get as a member of GILD.
           </h3>
@@ -184,11 +186,11 @@ export function WhatYouGet() {
           ))}
         </div>
 
-        <div ref={bottomBtnRef} className="mt-24 flex justify-center">
+        <div ref={bottomBtnRef} className="mt-24 flex justify-start">
           <button
             type="button"
             onClick={() => requestAccess("networking_bottom")}
-            className="bg-[#5a9a9b] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#4d8889]"
+            className="bg-[#5a9a9b] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-[#4d8889]"
           >
             Request Access
           </button>

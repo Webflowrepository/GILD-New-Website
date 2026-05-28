@@ -118,7 +118,7 @@ export function Footer() {
               <button
                 type="button"
                 onClick={requestInvite}
-                className="bg-[#5a9a9b] px-6 py-3 text-[11px] font-medium uppercase tracking-[0.14em] text-white transition-all duration-300 hover:bg-[#4d8889]"
+                className="bg-[#5a9a9b] px-6 py-3 text-[11px] font-medium uppercase tracking-[0.14em] text-white transition-colors duration-300 hover:bg-[#4d8889]"
               >
                 Request Invite
               </button>
