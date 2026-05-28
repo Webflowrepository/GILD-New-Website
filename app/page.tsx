@@ -16,10 +16,10 @@ export default function Home() {
       <main>
         <Hero />
         <SocialProof />
+        <WhyGildExists />
         <HowItWorks />
         <UpcomingForums />
         <PastForums />
-        <WhyGildExists />
         <ApplicationForm />
         <FAQ />
       </main>
