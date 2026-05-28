@@ -7,7 +7,7 @@ import { forumEvents } from "@/lib/events";
 
 function PinIcon() {
   return (
-    <svg width="11" height="13" viewBox="0 0 11 13" fill="none" aria-hidden>
+    <svg width="10" height="12" viewBox="0 0 11 13" fill="none" aria-hidden>
       <path
         d="M5.5 0C3.015 0 1 2.015 1 4.5c0 3.375 4.5 8.5 4.5 8.5s4.5-5.125 4.5-8.5C10 2.015 7.985 0 5.5 0zm0 6.125A1.625 1.625 0 1 1 5.5 2.875a1.625 1.625 0 0 1 0 3.25z"
         fill="currentColor"
@@ -44,12 +44,12 @@ export function UpcomingForums() {
           onEnter: () => {
             gsap.fromTo(
               cards,
-              { opacity: 0, y: 36 },
+              { opacity: 0, y: 28 },
               {
                 opacity: 1,
                 y: 0,
-                duration: 0.68,
-                stagger: 0.1,
+                duration: 0.65,
+                stagger: 0.09,
                 ease: "power2.out",
                 clearProps: "opacity,transform",
               }
@@ -66,91 +66,105 @@ export function UpcomingForums() {
       <div className="section-shell">
 
         {/* Header */}
-        <div ref={headerRef} className="mb-12 text-center">
+        <div ref={headerRef} className="mb-10 text-center">
           <h2 className="font-serif text-[32px] font-normal leading-[1.1] tracking-[-0.015em] text-white md:text-[42px] lg:text-[48px]">
             Upcoming GILD Events
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-[14px] leading-[1.85] text-white/45 md:text-[15px]">
+          <p className="mx-auto mt-4 max-w-xl text-[14px] leading-[1.85] text-white/45 md:text-[15px]">
             GILD events are where the network gathers. Curated rooms for senior
-            AI and engineering leaders. Invite-only and intentionally small.
+            AI and engineering leaders.{" "}
+            <span className="text-[#5a9a9b]">Invite-only and intentionally small.</span>
           </p>
         </div>
 
         {/* 2-col grid */}
-        <div ref={gridRef} className="grid gap-4 md:grid-cols-2">
+        <div ref={gridRef} className="grid gap-[22px] md:grid-cols-2">
           {forumEvents.map((event) => (
             <a
               key={`${event.date}-${event.url}`}
               href={event.url}
               target="_blank"
               rel="noreferrer"
-              className="group relative overflow-hidden rounded-card border transition-all duration-300 hover:shadow-[0_8px_40px_rgba(0,0,0,0.55)]"
+              className="group relative overflow-hidden rounded-[5px] border transition-all duration-300 hover:shadow-[0_6px_32px_rgba(0,0,0,0.5)]"
               style={{
                 backgroundColor: event.cardColor,
                 borderColor: event.borderColor,
               }}
             >
-              {/* Subtle left-edge glow matching card color */}
+              {/* Subtle bg image overlay */}
+              <div className="pointer-events-none absolute inset-0 opacity-[0.07]">
+                <Image
+                  src={event.coverUrl}
+                  alt=""
+                  fill
+                  sizes="600px"
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+
+              {/* Left-edge accent */}
               <div
-                className="pointer-events-none absolute inset-y-0 left-0 w-24 opacity-40"
-                style={{
-                  background: `linear-gradient(to right, ${event.borderColor}, transparent)`,
-                }}
+                className="pointer-events-none absolute inset-y-0 left-0 w-[3px] rounded-l-[5px]"
+                style={{ backgroundColor: event.borderColor }}
               />
 
-              <div className="relative flex items-start gap-4 p-5">
+              {/* Main row */}
+              <div className="relative flex items-start gap-3 px-4 pb-3 pt-4">
+
                 {/* Left: content */}
                 <div className="min-w-0 flex-1">
                   {/* Date + time */}
-                  <p className="mb-2.5 text-[11px] font-medium text-white/40">
+                  <p className="mb-2 text-[11px] font-medium text-white/55">
                     {event.date}, {event.meta}
                   </p>
 
                   {/* Title */}
-                  <p className="mb-3 text-[14px] font-semibold leading-snug text-white/90">
+                  <p className="mb-2 text-[13px] font-bold leading-[1.45] text-white md:text-[14px]">
                     {event.title}
                   </p>
 
                   {/* Description */}
-                  <p className="mb-4 line-clamp-2 text-[12px] leading-[1.7] text-white/45">
+                  <p className="mb-3 line-clamp-2 text-[12px] leading-[1.65] text-white/50">
                     {event.description}
                   </p>
 
                   {/* Location */}
-                  <div className="mb-5 flex items-center gap-1.5 text-[11px] text-white/40">
+                  <div className="mb-4 flex items-center gap-1.5 text-[11px] text-white/40">
                     <PinIcon />
                     <span>{event.locationFull}</span>
                   </div>
 
                   {/* CTA button */}
-                  <span className="inline-block border border-white/25 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.18em] text-white/70 transition-colors duration-300 group-hover:border-white/45 group-hover:text-white/90">
+                  <span className="inline-block bg-white/10 px-4 py-[7px] text-[11px] font-semibold text-white ring-1 ring-white/30 transition-all duration-300 group-hover:bg-white/18 group-hover:ring-white/50">
                     Request Invite
                   </span>
                 </div>
 
                 {/* Right: thumbnail */}
                 <div
-                  className="relative h-[88px] w-[88px] shrink-0 overflow-hidden rounded-[4px]"
-                  style={{ backgroundColor: event.cardColor }}
+                  className="relative mt-0.5 h-[82px] w-[82px] shrink-0 overflow-hidden rounded-[4px] border"
+                  style={{ borderColor: event.borderColor, backgroundColor: event.cardColor }}
                 >
                   <Image
                     src={event.coverUrl}
                     alt=""
                     fill
-                    sizes="88px"
-                    className="object-contain p-1.5"
+                    sizes="82px"
+                    className="object-contain p-1"
+                    unoptimized
                   />
                 </div>
               </div>
 
               {/* Status badges — bottom right */}
-              <div className="flex items-center justify-end gap-2 px-5 pb-4">
+              <div className="relative flex items-center justify-end gap-1.5 px-4 pb-3">
                 {event.isNextUp && (
-                  <span className="bg-[#5a9a9b]/15 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.2em] text-[#5a9a9b]">
+                  <span className="bg-[#5a9a9b]/20 px-2 py-[3px] text-[9px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b]">
                     Next Up
                   </span>
                 )}
-                <span className="border border-[#5a9a9b]/35 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.2em] text-[#5a9a9b]/70">
+                <span className="border border-[#5a9a9b]/40 px-2 py-[3px] text-[9px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b]/80">
                   Open
                 </span>
               </div>
