@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { gsap, reduced } from "@/lib/gsap";
 
 const steps = [
   {
@@ -30,6 +31,7 @@ export function HowItWorks() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const headerRef = useRef<HTMLDivElement | null>(null);
   const [progress, setProgress] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [translateX, setTranslateX] = useState(0);
@@ -79,10 +81,25 @@ export function HowItWorks() {
     };
   }, []);
 
+  // Section header entrance
+  useEffect(() => {
+    if (reduced() || !headerRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(headerRef.current, {
+        opacity: 0,
+        y: 24,
+        duration: 0.7,
+        ease: "power2.out",
+        scrollTrigger: { trigger: headerRef.current, start: "top 84%", once: true },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section id="how-it-works" ref={sectionRef} className="bg-[#0d0b09] md:h-[360vh]">
       <div className="section-shell py-24 md:sticky md:top-[72px] md:flex md:min-h-[calc(100vh-72px)] md:flex-col md:justify-center md:py-0">
-        <div className="mb-12 md:mb-16">
+        <div ref={headerRef} className="mb-12 md:mb-16">
           <p className="section-label mb-0">How It Works</p>
         </div>
 

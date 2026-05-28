@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { trackApplyClick } from "@/lib/analytics";
 import { openRequestInviteModal } from "@/components/RequestInviteModal";
+import { gsap, reduced } from "@/lib/gsap";
 
 const heroImage =
   "/images/698fafaef71444e6a1a61008_3278742058c10b66de59b113217d901e_website_hero_desktop.avif";
@@ -31,14 +33,80 @@ const benefits = [
 ];
 
 export function WhatYouGet() {
+  const bannerRef = useRef<HTMLDivElement>(null);
+  const bannerHeadRef = useRef<HTMLHeadingElement>(null);
+  const bannerTextRef = useRef<HTMLParagraphElement>(null);
+  const bannerBtnRef = useRef<HTMLButtonElement>(null);
+  const headingBlockRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const bottomBtnRef = useRef<HTMLDivElement>(null);
+
   const requestAccess = (location: string) => {
     trackApplyClick(location);
     openRequestInviteModal();
   };
 
+  useEffect(() => {
+    if (reduced()) return;
+    const ctx = gsap.context(() => {
+      // Banner content
+      if (bannerRef.current) {
+        gsap.from(
+          [bannerHeadRef.current, bannerTextRef.current, bannerBtnRef.current],
+          {
+            opacity: 0,
+            y: 24,
+            duration: 0.68,
+            stagger: 0.12,
+            ease: "power2.out",
+            scrollTrigger: { trigger: bannerRef.current, start: "top 80%", once: true },
+          }
+        );
+      }
+
+      // Section heading block
+      if (headingBlockRef.current) {
+        gsap.from(headingBlockRef.current.children, {
+          opacity: 0,
+          y: 28,
+          duration: 0.7,
+          stagger: 0.13,
+          ease: "power2.out",
+          scrollTrigger: { trigger: headingBlockRef.current, start: "top 82%", once: true },
+        });
+      }
+
+      // Benefit cards cascade
+      if (cardsRef.current) {
+        const cards = cardsRef.current.querySelectorAll("article");
+        gsap.from(Array.from(cards), {
+          opacity: 0,
+          y: 48,
+          scale: 0.97,
+          duration: 0.75,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: { trigger: cardsRef.current, start: "top 82%", once: true },
+        });
+      }
+
+      // Bottom CTA
+      if (bottomBtnRef.current) {
+        gsap.from(bottomBtnRef.current, {
+          opacity: 0,
+          y: 24,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: { trigger: bottomBtnRef.current, start: "top 90%", once: true },
+        });
+      }
+    });
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section id="benefits" className="bg-[#060504] text-white">
-      <div className="relative min-h-[280px] overflow-hidden md:min-h-[360px]">
+      <div ref={bannerRef} className="relative min-h-[280px] overflow-hidden md:min-h-[360px]">
         <Image
           src={heroImage}
           alt=""
@@ -49,15 +117,16 @@ export function WhatYouGet() {
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,3,2,0.68),rgba(4,3,2,0.76))]" />
         <div className="section-shell relative z-10 flex min-h-[280px] flex-col items-center justify-center py-20 text-center md:min-h-[360px]">
-          <h2 className="max-w-4xl font-serif text-[30px] leading-[1.18] tracking-[-0.015em] text-white md:text-[42px]">
+          <h2 ref={bannerHeadRef} className="max-w-4xl font-serif text-[30px] leading-[1.18] tracking-[-0.015em] text-white md:text-[42px]">
             Apply To The GILD Network
           </h2>
-          <p className="mt-7 max-w-xl text-[13px] leading-[1.85] text-white/55 md:text-[14px]">
+          <p ref={bannerTextRef} className="mt-7 max-w-xl text-[13px] leading-[1.85] text-white/55 md:text-[14px]">
             If you&apos;re a senior AI or engineering leader, we&apos;d like to meet you. We
             review every application personally. Tell us who you are, what you&apos;re
             working on, and what would be most valuable to you. We&apos;ll do the rest.
           </p>
           <button
+            ref={bannerBtnRef}
             type="button"
             onClick={() => requestAccess("networking_banner")}
             className="mt-10 bg-[#5a9a9b] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#4d8889]"
@@ -68,8 +137,8 @@ export function WhatYouGet() {
       </div>
 
       <div className="section-shell py-24 md:py-36">
-        <p className="section-label text-center">What You Get</p>
-        <div className="mx-auto max-w-3xl text-center">
+        <div ref={headingBlockRef} className="mx-auto max-w-3xl text-center">
+          <p className="section-label text-center">What You Get</p>
           <h3 className="font-serif text-[30px] leading-[1.2] tracking-[-0.015em] text-white md:text-[40px]">
             What you get as a member of GILD.
           </h3>
@@ -79,9 +148,12 @@ export function WhatYouGet() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div ref={cardsRef} className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {benefits.map((benefit) => (
-            <article key={benefit.title} className="group">
+            <article
+              key={benefit.title}
+              className="group transition-transform duration-300 md:hover:-translate-y-1"
+            >
               <div className="relative aspect-[1.55] overflow-hidden rounded-card bg-[#0d0b09]">
                 <Image
                   src={benefit.image}
@@ -100,7 +172,7 @@ export function WhatYouGet() {
           ))}
         </div>
 
-        <div className="mt-24 flex justify-center">
+        <div ref={bottomBtnRef} className="mt-24 flex justify-center">
           <button
             type="button"
             onClick={() => requestAccess("networking_bottom")}

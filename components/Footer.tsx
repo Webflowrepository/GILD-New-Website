@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { trackApplyClick } from "@/lib/analytics";
 import { openRequestInviteModal } from "@/components/RequestInviteModal";
+import { gsap, reduced } from "@/lib/gsap";
 
 function InstagramIcon() {
   return (
@@ -22,15 +24,47 @@ function InstagramIcon() {
 }
 
 export function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const dividerRef = useRef<HTMLDivElement>(null);
+
   const requestInvite = () => {
     trackApplyClick("footer");
     openRequestInviteModal();
   };
 
+  useEffect(() => {
+    if (reduced()) return;
+    const ctx = gsap.context(() => {
+      const trigger = footerRef.current;
+      if (!trigger) return;
+
+      gsap.from(contentRef.current, {
+        opacity: 0,
+        y: 24,
+        duration: 0.72,
+        ease: "power2.out",
+        scrollTrigger: { trigger, start: "top 90%", once: true },
+      });
+
+      gsap.from(dividerRef.current, {
+        scaleX: 0,
+        transformOrigin: "center center",
+        duration: 1.0,
+        ease: "power2.out",
+        scrollTrigger: { trigger: dividerRef.current, start: "top 95%", once: true },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className="border-t border-[rgba(255,248,235,0.07)] bg-[#080604] py-12 md:py-16">
+    <footer
+      ref={footerRef}
+      className="border-t border-[rgba(255,248,235,0.07)] bg-[#080604] py-12 md:py-16"
+    >
       <div className="section-shell">
-        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+        <div ref={contentRef} className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div>
             <a href="/" aria-label="GILD home" className="relative block h-8 w-24">
               <Image
@@ -99,7 +133,12 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-[rgba(255,248,235,0.06)] pt-6">
+        <div className="mt-10 pt-6">
+          <div
+            ref={dividerRef}
+            className="mb-6 h-px bg-[rgba(255,248,235,0.06)]"
+            style={{ transformOrigin: "center center" }}
+          />
           <p className="text-[11px] uppercase tracking-[0.1em] text-white/20">&copy; 2026 Gild</p>
         </div>
       </div>

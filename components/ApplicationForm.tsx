@@ -1,7 +1,8 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { trackFormSubmit } from "@/lib/analytics";
+import { gsap, reduced } from "@/lib/gsap";
 
 type FormState = {
   firstName: string;
@@ -33,6 +34,10 @@ export function ApplicationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const leftRef = useRef<HTMLDivElement>(null);
+  const rightRef = useRef<HTMLDivElement>(null);
+
   const update = (field: keyof FormState, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
   };
@@ -55,11 +60,37 @@ export function ApplicationForm() {
     }
   };
 
+  useEffect(() => {
+    if (reduced()) return;
+    const ctx = gsap.context(() => {
+      const trigger = sectionRef.current;
+      if (!trigger) return;
+
+      gsap.from(leftRef.current, {
+        opacity: 0,
+        y: 32,
+        duration: 0.72,
+        ease: "power2.out",
+        scrollTrigger: { trigger, start: "top 80%", once: true },
+      });
+
+      gsap.from(rightRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 0.78,
+        delay: 0.1,
+        ease: "power2.out",
+        scrollTrigger: { trigger, start: "top 80%", once: true },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="apply" className="section-pad bg-[#0d0b09]">
+    <section ref={sectionRef} id="apply" className="section-pad bg-[#0d0b09]">
       <div className="section-shell">
         <div className="grid gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-          <div className="max-w-xl">
+          <div ref={leftRef} className="max-w-xl">
             <p className="section-label">Apply</p>
             <h2 className="font-serif text-4xl leading-[1.1] tracking-[-0.015em] text-white md:text-5xl">
               Apply to the network.
@@ -70,7 +101,7 @@ export function ApplicationForm() {
             </p>
           </div>
 
-          <div className="rounded-card border border-[rgba(255,248,235,0.07)] bg-[#0f0d0b] p-6 shadow-[0_4px_60px_rgba(0,0,0,0.4)] md:p-8">
+          <div ref={rightRef} className="rounded-card border border-[rgba(255,248,235,0.07)] bg-[#0f0d0b] p-6 shadow-[0_4px_60px_rgba(0,0,0,0.4)] md:p-8">
             {submitted ? (
               <div className="flex min-h-[360px] flex-col justify-center">
                 <h3 className="font-serif text-3xl leading-[1.2] text-white/90">

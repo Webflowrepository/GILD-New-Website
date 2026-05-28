@@ -1,19 +1,57 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef } from "react";
+import { gsap, reduced } from "@/lib/gsap";
 import { forumEvents } from "@/lib/events";
 
 export function UpcomingForums() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const labelRef = useRef<HTMLParagraphElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (reduced()) return;
+    const ctx = gsap.context(() => {
+      const trigger = sectionRef.current;
+      if (!trigger) return;
+
+      gsap.from(labelRef.current, {
+        opacity: 0,
+        y: 20,
+        duration: 0.65,
+        ease: "power2.out",
+        scrollTrigger: { trigger, start: "top 82%", once: true },
+      });
+
+      if (gridRef.current) {
+        const cards = gridRef.current.querySelectorAll("a");
+        gsap.from(Array.from(cards), {
+          opacity: 0,
+          y: 44,
+          scale: 0.97,
+          duration: 0.72,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: { trigger: gridRef.current, start: "top 84%", once: true },
+        });
+      }
+    });
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="events" className="section-pad bg-[#0a0806]">
+    <section ref={sectionRef} id="events" className="section-pad bg-[#0a0806]">
       <div className="section-shell">
-        <p className="section-label">Upcoming Forums</p>
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <p ref={labelRef} className="section-label">Upcoming Forums</p>
+        <div ref={gridRef} className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {forumEvents.map((event) => (
             <a
               key={`${event.date}-${event.url}`}
               href={event.url}
               target="_blank"
               rel="noreferrer"
-              className="group overflow-hidden rounded-card border border-[rgba(255,248,235,0.07)] transition-all duration-500 hover:-translate-y-0.5 hover:border-[rgba(255,248,235,0.13)] hover:shadow-[0_8px_48px_rgba(0,0,0,0.5)]"
+              className="group overflow-hidden rounded-card border border-[rgba(255,248,235,0.07)] transition-all duration-500 hover:-translate-y-1 hover:border-[rgba(255,248,235,0.13)] hover:shadow-[0_8px_48px_rgba(0,0,0,0.5)]"
               style={{
                 backgroundColor: event.cardColor,
                 borderColor: undefined
@@ -28,7 +66,7 @@ export function UpcomingForums() {
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                  className="object-contain p-3 transition-all duration-500 group-hover:scale-[1.02]"
+                  className="object-contain p-3 transition-all duration-500 group-hover:scale-[1.03]"
                 />
               </div>
               <div className="p-7">

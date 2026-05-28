@@ -84,7 +84,7 @@ export function SocialProof() {
         <h2 className="mx-auto mb-16 max-w-3xl text-center font-sans text-[13px] font-medium uppercase tracking-[0.28em] text-white/35">
           Companies whose leadership is attending GILD events
         </h2>
-        <div ref={marqueeRef} className="overflow-hidden">
+        <div ref={marqueeRef} className="overflow-hidden marquee-mask">
           {hasMarquee ? (
             <div
               className={`flex w-max gap-[50px] md:gap-[100px] ${
