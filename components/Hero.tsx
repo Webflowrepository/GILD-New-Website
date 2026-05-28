@@ -42,7 +42,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative flex min-h-[75vh] flex-col overflow-hidden bg-[#050403] md:min-h-[calc(100vh-72px)]">
+    <section className="relative flex min-h-[75vh] flex-col overflow-hidden bg-[#07090c] md:min-h-[calc(100vh-72px)]">
       {/* Background */}
       <div ref={bgRef} className="absolute inset-0">
         <Image
@@ -56,7 +56,7 @@ export function Hero() {
         />
         <div className="absolute inset-0 bg-black/28" />
         <div className="absolute inset-0 bg-[linear-gradient(108deg,rgba(5,4,3,0.82)_0%,rgba(5,4,3,0.38)_48%,rgba(5,4,3,0.18)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#080604] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#07090c] to-transparent" />
       </div>
 
       {/* Main content — grows to fill space */}

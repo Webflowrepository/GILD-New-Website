@@ -62,7 +62,7 @@ export function UpcomingForums() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="events" className="section-pad bg-[#0a0806]">
+    <section ref={sectionRef} id="events" className="section-pad bg-[#0b1520]">
       <div className="section-shell">
 
         {/* Header */}

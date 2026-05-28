@@ -110,7 +110,7 @@ export function FAQ() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="faq" className="section-pad bg-[#090706]">
+    <section ref={sectionRef} id="faq" className="section-pad bg-[#07090c]">
       <div className="section-shell">
         <p ref={labelRef} className="section-label">FAQ</p>
         <div ref={listRef} className="border-t border-[#5a9a9b]/30">

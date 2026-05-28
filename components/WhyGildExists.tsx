@@ -126,7 +126,7 @@ export function WhyGildExists() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="why" className="section-pad bg-[#0d0b09]">
+    <section ref={sectionRef} id="why" className="section-pad bg-[#07090c]">
       <div className="section-shell">
 
         {/* ─────────────────────────────────────────────────
@@ -199,7 +199,7 @@ export function WhyGildExists() {
             className="object-cover [filter:saturate(0.80)_contrast(1.06)]"
             style={{ objectPosition: "center 38%" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b09]/50 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07090c]/50 via-transparent to-transparent" />
         </div>
 
         {/* ─────────────────────────────────────────────────

@@ -27,7 +27,7 @@ const initialState: FormState = {
 };
 
 const inputClass =
-  "w-full rounded-none border border-[rgba(255,248,235,0.1)] bg-[#0c0a08] px-4 py-3 text-[13px] text-white/85 placeholder:text-white/25 focus:border-[rgba(181,148,90,0.45)] focus:outline focus:outline-2 focus:outline-[rgba(181,148,90,0.12)]";
+  "w-full rounded-none border border-[rgba(255,248,235,0.1)] bg-[#0d1a26] px-4 py-3 text-[13px] text-white/85 placeholder:text-white/25 focus:border-[rgba(90,154,155,0.5)] focus:outline focus:outline-2 focus:outline-[rgba(90,154,155,0.12)]";
 
 export function ApplicationForm() {
   const [form, setForm] = useState<FormState>(initialState);
@@ -79,7 +79,7 @@ export function ApplicationForm() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="apply" className="section-pad bg-[#0d0b09]">
+    <section ref={sectionRef} id="apply" className="section-pad bg-[#0f1c28]">
       <div className="section-shell">
         <div className="mx-auto max-w-2xl">
           <div ref={leftRef}>
@@ -93,7 +93,7 @@ export function ApplicationForm() {
             </p>
           </div>
 
-          <div ref={rightRef} className="mt-10 rounded-card border border-[rgba(255,248,235,0.07)] bg-[#0f0d0b] p-6 shadow-[0_4px_60px_rgba(0,0,0,0.4)] md:p-8">
+          <div ref={rightRef} className="mt-10 rounded-card border border-[rgba(255,248,235,0.07)] bg-[#111e2c] p-6 shadow-[0_4px_60px_rgba(0,0,0,0.4)] md:p-8">
             {submitted ? (
               <div className="flex min-h-[360px] flex-col justify-center">
                 <h3 className="font-serif text-3xl leading-[1.2] text-white/90">

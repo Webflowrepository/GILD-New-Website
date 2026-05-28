@@ -159,7 +159,7 @@ export function PastForums() {
   };
 
   return (
-    <section ref={sectionRef} id="past-forums" className="section-pad bg-[#0a0806]">
+    <section ref={sectionRef} id="past-forums" className="section-pad bg-[#0d1318]">
       <div className="section-shell">
 
         <div ref={headerRef} className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

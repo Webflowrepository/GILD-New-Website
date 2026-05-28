@@ -97,7 +97,7 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section id="how-it-works" ref={sectionRef} className="bg-[#0d0b09] md:h-[360vh]">
+    <section id="how-it-works" ref={sectionRef} className="bg-[#0f1c28] md:h-[360vh]">
       <div className="section-shell py-24 md:sticky md:top-[72px] md:flex md:min-h-[calc(100vh-72px)] md:flex-col md:justify-center md:py-0">
         <div ref={headerRef} className="mb-12 md:mb-16">
           <p className="section-label mb-0">How It Works</p>
@@ -109,7 +109,7 @@ export function HowItWorks() {
             {steps.map((step) => (
               <article
                 key={step.number}
-                className="rounded-card border border-[rgba(255,248,235,0.07)] bg-[#110f0c] p-7"
+                className="rounded-card border border-[rgba(255,248,235,0.07)] bg-[#162132] p-7"
               >
                 <div className="flex items-center gap-4">
                   <p className="text-[42px] font-light leading-none text-[#5a9a9b]">
@@ -182,8 +182,8 @@ export function HowItWorks() {
                     key={step.number}
                     className={`min-h-[420px] w-[72vw] max-w-[760px] shrink-0 rounded-card border p-12 transition-all duration-500 lg:w-[62vw] ${
                       isActive
-                        ? "translate-y-0 border-[rgba(255,248,235,0.1)] bg-[#141210] opacity-100 shadow-[0_4px_48px_rgba(0,0,0,0.55)]"
-                        : "translate-y-2 border-[rgba(255,248,235,0.04)] bg-[#0f0d0b] opacity-25"
+                        ? "translate-y-0 border-[rgba(255,248,235,0.1)] bg-[#162132] opacity-100 shadow-[0_4px_48px_rgba(0,0,0,0.55)]"
+                        : "translate-y-2 border-[rgba(255,248,235,0.04)] bg-[#111e2c] opacity-25"
                     }`}
                   >
                     <p className="text-[72px] font-light leading-none text-[#5a9a9b]">

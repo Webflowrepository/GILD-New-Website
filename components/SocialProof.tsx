@@ -64,7 +64,7 @@ export function SocialProof() {
   return (
     <section
       ref={sectionRef}
-      className={`section-pad section-bridge bg-[#0a0806] transition-all duration-700 ${
+      className={`section-pad section-bridge bg-[#0b1520] transition-all duration-700 ${
         sectionVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
       }`}
     >
@@ -74,7 +74,7 @@ export function SocialProof() {
             <article
               key={testimonial.name}
               data-card-key={testimonial.name}
-              className={`rounded-card border border-[rgba(255,248,235,0.06)] bg-[#110f0c] p-7 shadow-[0_2px_24px_rgba(0,0,0,0.45)] transition-all duration-700 hover:-translate-y-0.5 hover:border-[rgba(255,248,235,0.11)] hover:shadow-[0_8px_36px_rgba(0,0,0,0.55)] ${index >= 4 ? "hidden md:block" : ""} ${
+              className={`rounded-card border border-[rgba(255,248,235,0.06)] bg-[#0f1d2a] p-7 shadow-[0_2px_24px_rgba(0,0,0,0.45)] transition-all duration-700 hover:-translate-y-0.5 hover:border-[rgba(255,248,235,0.11)] hover:shadow-[0_8px_36px_rgba(0,0,0,0.55)] ${index >= 4 ? "hidden md:block" : ""} ${
                 visibleCards.has(testimonial.name)
                   ? "translate-y-0 opacity-100"
                   : "translate-y-3 opacity-0"
