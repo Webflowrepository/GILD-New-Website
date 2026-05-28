@@ -41,7 +41,7 @@ const notFitItems = [
   "Surface-level networking.",
 ];
 
-const EVENT_IMG = "/images/Network%20Banner.png";
+const EVENT_IMG = "/images/DSC09759.jpg";
 
 export function WhyGildExists() {
   const sectionRef  = useRef<HTMLElement>(null);
@@ -105,7 +105,7 @@ export function WhyGildExists() {
     <section ref={sectionRef} id="why" className="bg-[#07090c]">
 
       {/* ── BANNER ─────────────────────────────────────────── */}
-      <div ref={bannerRef} className="relative overflow-hidden" style={{ minHeight: "420px" }}>
+      <div ref={bannerRef} className="relative overflow-hidden" style={{ minHeight: "560px" }}>
         {/* Background photo */}
         <Image
           src={EVENT_IMG}
@@ -113,16 +113,15 @@ export function WhyGildExists() {
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-55 [filter:saturate(0.78)_contrast(1.06)]"
-          style={{ objectPosition: "center 38%" }}
-          unoptimized
+          className="object-cover opacity-60 [filter:saturate(0.78)_contrast(1.06)]"
+          style={{ objectPosition: "center 40%" }}
         />
         {/* Dark overlays */}
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#07090c] to-transparent" />
 
         {/* Centered content */}
-        <div className="relative z-10 flex min-h-[420px] flex-col items-center justify-center px-6 py-20 text-center">
+        <div className="relative z-10 flex min-h-[560px] flex-col items-center justify-center px-6 py-24 text-center">
           <p className="mb-6 text-[15px] font-medium uppercase tracking-[0.18em] text-white/65">
             Why GILD Exists
           </p>
@@ -136,7 +135,7 @@ export function WhyGildExists() {
           <button
             type="button"
             onClick={requestAccess}
-            className="mt-10 bg-white px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-[#07090c] transition-colors duration-300 hover:bg-white/88"
+            className="mt-10 bg-[#5a9a9b] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-[#4d8889]"
           >
             Request Access
           </button>
