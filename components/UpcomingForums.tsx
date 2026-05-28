@@ -91,18 +91,6 @@ export function UpcomingForums() {
                 borderColor: event.borderColor,
               }}
             >
-              {/* Subtle bg image overlay */}
-              <div className="pointer-events-none absolute inset-0 opacity-[0.07]">
-                <Image
-                  src={event.coverUrl}
-                  alt=""
-                  fill
-                  sizes="600px"
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-
               {/* Left-edge accent */}
               <div
                 className="pointer-events-none absolute inset-y-0 left-0 w-[3px] rounded-l-[5px]"
