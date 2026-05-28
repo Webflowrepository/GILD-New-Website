@@ -52,9 +52,10 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#0d0b09] to-transparent" />
       </div>
 
-      <div className="section-shell relative z-10 flex min-h-[calc(100vh-72px)] items-center py-28">
-        <div className="hero-drift max-w-[860px] text-left">
-          <h1 className="text-[32px] font-normal leading-[1.12] tracking-[-0.015em] text-white md:text-[44px] lg:text-[54px]">
+      {/* Hero content — wider container than section-shell to prevent cramped feel on large screens */}
+      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] min-h-[calc(100vh-72px)] items-center px-6 py-20 md:px-12 md:py-24 lg:px-16 xl:px-20">
+        <div className="hero-drift max-w-[820px] text-left">
+          <h1 className="text-[36px] font-normal leading-[1.08] tracking-[-0.018em] text-white sm:text-[48px] md:text-[60px] lg:text-[70px] xl:text-[78px]">
             <span className="block overflow-hidden">
               <span
                 className="block"
@@ -74,7 +75,7 @@ export function Hero() {
           </h1>
           <p
             ref={subRef}
-            className="mt-8 max-w-[480px] text-[15px] leading-[1.85] text-white/55 md:text-base"
+            className="mt-7 max-w-[520px] text-[15px] leading-[1.9] text-white/60 md:text-[17px] lg:text-[18px]"
           >
             GILD is a curated network of senior AI and engineering leaders, strategists,
             and technical operators. Join the network to be in our next AI Forum.
@@ -83,7 +84,7 @@ export function Hero() {
             ref={ctaRef}
             type="button"
             onClick={apply}
-            className="mt-12 bg-[#5a9a9b] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-[#4d8889]"
+            className="mt-10 bg-[#5a9a9b] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-[#4d8889]"
           >
             Request Access
           </button>
