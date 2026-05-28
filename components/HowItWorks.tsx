@@ -80,55 +80,56 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section id="how-it-works" ref={sectionRef} className="bg-slate-900 md:h-[360vh]">
-      <div className="section-shell py-20 md:sticky md:top-16 md:flex md:min-h-[calc(100vh-64px)] md:flex-col md:justify-center md:py-0">
-        <div className="mb-10 md:mb-14">
+    <section id="how-it-works" ref={sectionRef} className="bg-[#0d0b09] md:h-[360vh]">
+      <div className="section-shell py-24 md:sticky md:top-[72px] md:flex md:min-h-[calc(100vh-72px)] md:flex-col md:justify-center md:py-0">
+        <div className="mb-12 md:mb-16">
           <p className="section-label mb-0">How It Works</p>
         </div>
 
+        {/* Mobile */}
         <div className="md:hidden">
-          <div className="space-y-5">
-            {steps.map((step, index) => (
+          <div className="space-y-4">
+            {steps.map((step) => (
               <article
                 key={step.number}
-                className="rounded-card border border-slate-700 bg-slate-800 p-6"
+                className="rounded-card border border-[rgba(255,248,235,0.07)] bg-[#110f0c] p-7"
               >
                 <div className="flex items-center gap-4">
-                  <p className="text-4xl font-medium text-teal-400">{step.number}</p>
-                  <div className="h-px flex-1 bg-slate-700">
-                    <div
-                      className="h-px bg-teal-400"
-                      style={{ width: index === steps.length - 1 ? "100%" : "35%" }}
-                    />
-                  </div>
+                  <p className="text-[42px] font-light leading-none text-[#4a8888]/55">
+                    {step.number}
+                  </p>
+                  <div className="h-px flex-1 bg-[rgba(255,248,235,0.06)]" />
                 </div>
-                <h2 className="mt-8 text-2xl font-medium leading-8 text-white">{step.title}</h2>
-                <p className="mt-4 text-base leading-7 text-slate-100">{step.body}</p>
+                <h2 className="mt-8 font-serif text-2xl leading-[1.25] text-white/90">
+                  {step.title}
+                </h2>
+                <p className="mt-4 text-[14px] leading-[1.85] text-white/55">{step.body}</p>
                 {step.note ? (
-                  <p className="mt-4 text-sm italic leading-6 text-slate-300">{step.note}</p>
+                  <p className="mt-4 text-[13px] italic leading-[1.7] text-white/35">{step.note}</p>
                 ) : null}
               </article>
             ))}
           </div>
         </div>
 
+        {/* Desktop */}
         <div className="hidden md:block">
-          <div className="mb-10">
-            <div className="h-px bg-slate-700">
+          <div className="mb-12">
+            <div className="h-px bg-[rgba(255,248,235,0.07)]">
               <div
-                className="h-px bg-teal-400 transition-[width] duration-200 ease-out"
+                className="h-px bg-[#4a8888]/60 transition-[width] duration-300 ease-out"
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
-            <div className="mt-4 flex justify-between">
+            <div className="mt-5 flex justify-between">
               {steps.map((step, index) => (
                 <button
                   key={step.number}
                   type="button"
-                  className={`h-8 w-8 rounded-full border text-xs font-medium transition duration-300 ${
+                  className={`h-7 w-7 rounded-full border text-[10px] font-medium transition-all duration-500 ${
                     activeStep === index
-                      ? "border-teal-400 bg-teal-500 text-white"
-                      : "border-slate-700 text-slate-300"
+                      ? "border-[#4a8888]/70 bg-[#4a8888]/15 text-[#4a8888]"
+                      : "border-[rgba(255,248,235,0.12)] text-white/30"
                   }`}
                   onClick={() => {
                     const section = sectionRef.current;
@@ -153,7 +154,7 @@ export function HowItWorks() {
           <div ref={viewportRef} className="overflow-hidden">
             <div
               ref={trackRef}
-              className="flex gap-8 transition-transform duration-300 ease-out will-change-transform"
+              className="flex gap-6 transition-transform duration-400 ease-out will-change-transform"
               style={{ transform: `translate3d(${translateX}px, 0, 0)` }}
             >
               {steps.map((step, index) => {
@@ -162,23 +163,23 @@ export function HowItWorks() {
                 return (
                   <article
                     key={step.number}
-                    className={`min-h-[420px] w-[72vw] max-w-[760px] shrink-0 rounded-card border p-10 transition duration-300 lg:w-[62vw] ${
+                    className={`min-h-[420px] w-[72vw] max-w-[760px] shrink-0 rounded-card border p-12 transition-all duration-500 lg:w-[62vw] ${
                       isActive
-                        ? "translate-y-0 border-teal-500/60 bg-slate-800 opacity-100"
-                        : "translate-y-2 border-slate-700 bg-slate-800/70 opacity-45"
+                        ? "translate-y-0 border-[rgba(255,248,235,0.1)] bg-[#141210] opacity-100 shadow-[0_4px_48px_rgba(0,0,0,0.55)]"
+                        : "translate-y-2 border-[rgba(255,248,235,0.04)] bg-[#0f0d0b] opacity-25"
                     }`}
                   >
-                    <p className="text-7xl font-medium leading-none text-teal-400">
+                    <p className="text-[72px] font-light leading-none text-[#4a8888]/50">
                       {step.number}
                     </p>
-                    <h2 className="mt-12 max-w-2xl text-4xl font-medium leading-tight text-white">
+                    <h2 className="mt-12 max-w-2xl font-serif text-4xl leading-[1.15] text-white/92">
                       {step.title}
                     </h2>
-                    <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-100">
+                    <p className="mt-7 max-w-2xl text-[15px] leading-[1.9] text-white/55">
                       {step.body}
                     </p>
                     {step.note ? (
-                      <p className="mt-6 max-w-xl text-sm italic leading-6 text-slate-300">
+                      <p className="mt-6 max-w-xl text-[13px] italic leading-[1.75] text-white/35">
                         {step.note}
                       </p>
                     ) : null}

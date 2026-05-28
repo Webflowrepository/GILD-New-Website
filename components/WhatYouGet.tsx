@@ -37,22 +37,22 @@ export function WhatYouGet() {
   };
 
   return (
-    <section id="benefits" className="bg-black text-white">
-      <div className="relative min-h-[260px] overflow-hidden md:min-h-[320px]">
+    <section id="benefits" className="bg-[#060504] text-white">
+      <div className="relative min-h-[280px] overflow-hidden md:min-h-[360px]">
         <Image
           src={heroImage}
           alt=""
           fill
           sizes="100vw"
           priority={false}
-          className="object-cover opacity-45"
+          className="object-cover opacity-30 [filter:saturate(0.75)_contrast(1.1)]"
         />
-        <div className="absolute inset-0 bg-black/55" />
-        <div className="section-shell relative z-10 flex min-h-[260px] flex-col items-center justify-center py-16 text-center md:min-h-[320px]">
-          <h2 className="max-w-4xl text-3xl font-semibold leading-tight text-white md:text-4xl">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,3,2,0.68),rgba(4,3,2,0.76))]" />
+        <div className="section-shell relative z-10 flex min-h-[280px] flex-col items-center justify-center py-20 text-center md:min-h-[360px]">
+          <h2 className="max-w-4xl font-serif text-[30px] leading-[1.18] tracking-[-0.015em] text-white md:text-[42px]">
             Apply To The GILD Network
           </h2>
-          <p className="mt-6 max-w-2xl text-sm leading-6 text-slate-100 md:text-base">
+          <p className="mt-7 max-w-xl text-[13px] leading-[1.85] text-white/55 md:text-[14px]">
             If you&apos;re a senior AI or engineering leader, we&apos;d like to meet you. We
             review every application personally. Tell us who you are, what you&apos;re
             working on, and what would be most valuable to you. We&apos;ll do the rest.
@@ -60,50 +60,51 @@ export function WhatYouGet() {
           <button
             type="button"
             onClick={() => requestAccess("networking_banner")}
-            className="mt-9 rounded px-7 py-3 text-sm font-medium text-slate-900 transition-colors duration-200 bg-white hover:bg-slate-100"
+            className="mt-10 border border-white/25 px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white/75 transition-all duration-500 hover:border-white/55 hover:text-white"
           >
             Request Access
           </button>
         </div>
       </div>
 
-      <div className="section-shell py-20 md:py-28">
+      <div className="section-shell py-24 md:py-36">
         <p className="section-label text-center">What You Get</p>
         <div className="mx-auto max-w-3xl text-center">
-          <h3 className="text-3xl font-semibold leading-tight text-white md:text-4xl">
+          <h3 className="font-serif text-[30px] leading-[1.2] tracking-[-0.015em] text-white md:text-[40px]">
             What you get as a member of GILD.
           </h3>
-          <p className="mt-6 text-sm leading-6 text-slate-100 md:text-base">
+          <p className="mt-6 text-[13px] leading-[1.85] text-white/50 md:text-[14px]">
             GILD is more than dinners. The network is built to make every member more
             connected, more informed, and more effective.
           </p>
         </div>
 
-        <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {benefits.map((benefit) => (
-            <article key={benefit.title} className="bg-black">
-              <div className="relative aspect-[1.55] overflow-hidden bg-slate-800">
+            <article key={benefit.title} className="group">
+              <div className="relative aspect-[1.55] overflow-hidden rounded-card bg-[#0d0b09]">
                 <Image
                   src={benefit.image}
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
-                  className="object-cover"
+                  className="object-cover opacity-85 transition-all duration-700 group-hover:scale-[1.03] group-hover:opacity-95 [filter:saturate(0.88)]"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060504]/50 via-transparent to-transparent" />
               </div>
-              <h4 className="mt-6 text-sm font-bold uppercase tracking-tight text-white">
+              <h4 className="mt-6 font-serif text-[16px] leading-snug text-white/90">
                 {benefit.title}
               </h4>
-              <p className="mt-4 text-sm leading-6 text-slate-100">{benefit.body}</p>
+              <p className="mt-3 text-[13px] leading-[1.85] text-white/45">{benefit.body}</p>
             </article>
           ))}
         </div>
 
-        <div className="mt-20 flex justify-center">
+        <div className="mt-24 flex justify-center">
           <button
             type="button"
             onClick={() => requestAccess("networking_bottom")}
-            className="rounded px-7 py-3 text-sm font-medium text-slate-900 transition-colors duration-200 bg-white hover:bg-slate-100"
+            className="border border-white/20 px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white/65 transition-all duration-500 hover:border-white/45 hover:text-white/90"
           >
             Request Access
           </button>

@@ -5,8 +5,8 @@
 :root {
   color-scheme: dark;
   --page-bg: #0d0b09;
-  --accent: #b5945a;
-  --accent-light: #c9a86a;
+  --accent: #4a8888;
+  --accent-light: #5a9898;
   background: var(--page-bg);
 }
 

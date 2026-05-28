@@ -41,13 +41,13 @@ export function Differentiator() {
 
           <div className="mt-16 grid gap-12 border-t border-[rgba(255,248,235,0.07)] pt-12 md:grid-cols-2 md:gap-20">
             <div>
-              <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-[#b5945a]">
+              <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-[#4a8888]">
                 You&apos;re a fit if
               </p>
               <ul className="mt-8 space-y-5">
                 {fitItems.map((item) => (
                   <li key={item} className="flex gap-5 text-[15px] leading-[1.75] text-white/80">
-                    <span className="mt-[11px] h-px w-5 shrink-0 bg-[#b5945a]/50" />
+                    <span className="mt-[11px] h-px w-5 shrink-0 bg-[#4a8888]/50" />
                     <span>{item}</span>
                   </li>
                 ))}

@@ -26,7 +26,7 @@ const initialState: FormState = {
 };
 
 const inputClass =
-  "w-full rounded-lg border border-slate-700 bg-[#05080c] px-4 py-3 text-white placeholder:text-slate-300 focus:border-teal-400 focus:outline focus:outline-2 focus:outline-teal-400/30";
+  "w-full rounded-none border border-[rgba(255,248,235,0.1)] bg-[#0c0a08] px-4 py-3 text-[13px] text-white/85 placeholder:text-white/25 focus:border-[rgba(181,148,90,0.45)] focus:outline focus:outline-2 focus:outline-[rgba(181,148,90,0.12)]";
 
 export function ApplicationForm() {
   const [form, setForm] = useState<FormState>(initialState);
@@ -56,27 +56,27 @@ export function ApplicationForm() {
   };
 
   return (
-    <section id="apply" className="section-pad bg-slate-900">
+    <section id="apply" className="section-pad bg-[#0d0b09]">
       <div className="section-shell">
-        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div className="grid gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div className="max-w-xl">
             <p className="section-label">Apply</p>
-            <h2 className="text-4xl leading-tight text-white md:text-5xl">
+            <h2 className="font-serif text-4xl leading-[1.1] tracking-[-0.015em] text-white md:text-5xl">
               Apply to the network.
             </h2>
-            <p className="mt-5 text-base leading-7 text-slate-100">
+            <p className="mt-6 text-[14px] leading-[1.9] text-white/50">
               We review every application personally. You&apos;ll hear back within two
               weeks.
             </p>
           </div>
 
-          <div className="rounded-card border border-[#17212c] bg-[#020406] p-6 shadow-[0_22px_70px_rgba(0,0,0,0.3)] md:p-8">
+          <div className="rounded-card border border-[rgba(255,248,235,0.07)] bg-[#0f0d0b] p-6 shadow-[0_4px_60px_rgba(0,0,0,0.4)] md:p-8">
             {submitted ? (
               <div className="flex min-h-[360px] flex-col justify-center">
-                <h3 className="text-3xl leading-tight text-white">
+                <h3 className="font-serif text-3xl leading-[1.2] text-white/90">
                   Thanks. We&apos;ll be in touch within two weeks.
                 </h3>
-                <p className="mt-5 text-base leading-7 text-slate-100">
+                <p className="mt-6 text-[14px] leading-[1.9] text-white/50">
                   Our team will review your application and follow up personally if
                   there&apos;s a fit for the network.
                 </p>
@@ -84,7 +84,7 @@ export function ApplicationForm() {
             ) : (
               <form onSubmit={submit} className="grid gap-5">
                 <div className="grid gap-5 md:grid-cols-2">
-                  <label className="text-sm font-medium text-white">
+                  <label className="text-[11px] font-medium uppercase tracking-[0.1em] text-white/45">
                     First Name
                     <input
                       className={`${inputClass} mt-2`}
@@ -93,7 +93,7 @@ export function ApplicationForm() {
                       onChange={(event) => update("firstName", event.target.value)}
                     />
                   </label>
-                  <label className="text-sm font-medium text-white">
+                  <label className="text-[11px] font-medium uppercase tracking-[0.1em] text-white/45">
                     Last Name
                     <input
                       className={`${inputClass} mt-2`}
@@ -104,7 +104,7 @@ export function ApplicationForm() {
                   </label>
                 </div>
 
-                <label className="text-sm font-medium text-white">
+                <label className="text-[11px] font-medium uppercase tracking-[0.1em] text-white/45">
                   Job Title
                   <input
                     className={`${inputClass} mt-2`}
@@ -114,7 +114,7 @@ export function ApplicationForm() {
                   />
                 </label>
 
-                <label className="text-sm font-medium text-white">
+                <label className="text-[11px] font-medium uppercase tracking-[0.1em] text-white/45">
                   Work Email
                   <input
                     className={`${inputClass} mt-2`}
@@ -125,7 +125,7 @@ export function ApplicationForm() {
                   />
                 </label>
 
-                <label className="text-sm font-medium text-white">
+                <label className="text-[11px] font-medium uppercase tracking-[0.1em] text-white/45">
                   Company
                   <input
                     className={`${inputClass} mt-2`}
@@ -135,7 +135,7 @@ export function ApplicationForm() {
                   />
                 </label>
 
-                <label className="text-sm font-medium text-white">
+                <label className="text-[11px] font-medium uppercase tracking-[0.1em] text-white/45">
                   LinkedIn URL
                   <input
                     className={`${inputClass} mt-2`}
@@ -146,7 +146,7 @@ export function ApplicationForm() {
                   />
                 </label>
 
-                <label className="text-sm font-medium text-white">
+                <label className="text-[11px] font-medium uppercase tracking-[0.1em] text-white/45">
                   Which community?
                   <select
                     className={`${inputClass} mt-2`}
@@ -159,10 +159,10 @@ export function ApplicationForm() {
                   </select>
                 </label>
 
-                <label className="text-sm font-medium text-white">
+                <label className="text-[11px] font-medium uppercase tracking-[0.1em] text-white/45">
                   What&apos;s your biggest leadership challenge right now?
                   <textarea
-                    className={`${inputClass} mt-2 min-h-32 resize-y leading-6`}
+                    className={`${inputClass} mt-2 min-h-32 resize-y leading-[1.8]`}
                     required
                     rows={4}
                     value={form.challenge}
@@ -173,7 +173,7 @@ export function ApplicationForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-3 w-full rounded-full bg-teal-500 px-8 py-4 text-sm font-semibold text-white transition-colors hover:bg-teal-400 disabled:cursor-wait disabled:opacity-70 md:w-fit"
+                  className="mt-4 w-full border border-white/20 px-8 py-4 text-[11px] font-medium uppercase tracking-[0.2em] text-white/70 transition-all duration-500 hover:border-white/45 hover:text-white/95 disabled:cursor-wait disabled:opacity-35 md:w-fit"
                 >
                   {isSubmitting ? "Submitting..." : "Submit Application"}
                 </button>
