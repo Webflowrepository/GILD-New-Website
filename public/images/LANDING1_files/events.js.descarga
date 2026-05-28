@@ -1,0 +1,487 @@
+document.addEventListener("DOMContentLoaded", () => {
+    initUpcomingEvents();
+});
+
+const UPCOMING_EVENTS_PATH = "/v1/gild/luma/events/upcoming";
+const DEFAULT_API_BASE_URL = "https://dashboard.tecla.io/api";
+const DEFAULT_EVENT_TIMEZONE = "America/Chicago";
+const EVENT_CARD_BACKGROUND_BASE_URL = "https://dashboard.tecla.io/gild/images/events/";
+const TWO_WEEKS_MS_LOCAL = 14 * 24 * 60 * 60 * 1000;
+
+const STATUS_KEY_MAP = {
+    scheduled: "scheduled",
+    open: "open",
+    full: "full",
+    almostfull: "almost-full",
+    "almost-full": "almost-full",
+    live: "live",
+    finished: "finished",
+    ended: "finished",
+    closed: "finished",
+    upcoming: "open"
+};
+
+const STATUS_CLASS_NAMES = [
+    "is-in-progress",
+    "is-finished",
+    "is-open",
+    "is-scheduled",
+    "is-full",
+    "is-almost-full",
+    "is-live"
+];
+
+const FALLBACK_STATUSES = {
+    scheduled: { text: "Scheduled", class: "is-scheduled" },
+    open: { text: "Open", class: "is-open" },
+    full: { text: "Full", class: "is-full" },
+    "almost-full": { text: "Almost Full", class: "is-almost-full" },
+    live: { text: "Live Now!", class: "is-live" },
+    finished: { text: "Finished", class: "is-finished" }
+};
+
+async function initUpcomingEvents() {
+    const spinner = getEventGridSpinner();
+    showEventGridSpinner(spinner);
+
+    try {
+        const grids = Array.from(document.querySelectorAll('[event-data="card-grid"]'));
+        if (!grids.length) return;
+
+        const templatePairs = grids
+            .map((grid) => ({
+                grid,
+                template: grid.querySelector('[event-data="card"]')
+            }))
+            .filter((pair) => pair.template);
+
+        if (!templatePairs.length) return;
+
+        let events = [];
+        events = await fetchUpcomingEvents();
+
+        const nextEventIndex = getNextEventIndex(events);
+
+        templatePairs.forEach(({ grid, template }) => {
+            renderEventsGrid(grid, template, events, nextEventIndex);
+        });
+    } catch (error) {
+        console.warn("Unable to load upcoming events", error);
+    } finally {
+        hideEventGridSpinner(spinner);
+    }
+}
+
+async function fetchUpcomingEvents() {
+    const apiBaseUrl = resolveApiBaseUrl();
+    const endpoint = buildUpcomingEventsUrl(apiBaseUrl);
+
+    const response = await fetch(endpoint, {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+            Accept: "application/json"
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`);
+    }
+
+    const json = await response.json();
+
+    if (!json || json.ok !== true || !Array.isArray(json.data)) {
+        throw new Error("Invalid upcoming events payload");
+    }
+
+    return json.data;
+}
+
+function resolveApiBaseUrl() {
+    if (typeof TECLA_API === "string" && TECLA_API.trim().length > 0) {
+        return normalizeBaseUrl(TECLA_API);
+    }
+
+    return normalizeBaseUrl(DEFAULT_API_BASE_URL);
+}
+
+function normalizeBaseUrl(value) {
+    return String(value || "").trim().replace(/\/+$/, "");
+}
+
+function buildUpcomingEventsUrl(baseUrl) {
+    const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
+
+    if (/\/v1$/i.test(normalizedBaseUrl)) {
+        return `${normalizedBaseUrl}/gild/luma/events/upcoming`;
+    }
+
+    return `${normalizedBaseUrl}${UPCOMING_EVENTS_PATH}`;
+}
+
+function renderEventsGrid(grid, template, events, nextEventIndex) {
+    const fallbackImage = template.querySelector('[event-data="image"]')?.getAttribute("src") || "";
+
+    grid.innerHTML = "";
+
+    if (!events.length) return;
+
+    const fragment = document.createDocumentFragment();
+
+    events.forEach((eventItem, index) => {
+        const card = template.cloneNode(true);
+        hydrateEventCard(card, eventItem, index === nextEventIndex, fallbackImage);
+        fragment.appendChild(card);
+    });
+
+    grid.appendChild(fragment);
+}
+
+function hydrateEventCard(card, eventItem, isNextEvent, fallbackImage) {
+    const title = sanitizeText(eventItem?.title, "Event Title");
+    const description = sanitizeText(eventItem?.description, "");
+    const imageUrl = sanitizeText(eventItem?.banner_image, fallbackImage);
+    const eventUrl = sanitizeUrl(eventItem?.url);
+    const eventDetailUrl = buildEventDetailUrl(eventItem?.id);
+    const cardBackgroundUrl = buildEventBackgroundImageUrl(eventItem?.id);
+    const timeZone = getSafeTimeZone(sanitizeText(eventItem?.timezone, DEFAULT_EVENT_TIMEZONE));
+
+    const startDate = parseIsoDate(eventItem?.start_at);
+    const endDate = parseIsoDate(eventItem?.end_at);
+
+    const locationText = formatLocation(eventItem);
+    const dateText = formatEventDateRange(startDate, endDate, timeZone);
+    const ymdhmStart = startDate ? toYmdHmInTimeZone(startDate, timeZone) : "";
+    const ymdhmEnd = endDate ? toYmdHmInTimeZone(endDate, timeZone) : "";
+
+    const statusKey = resolveStatusKey(eventItem?.status, startDate, endDate);
+    const statusMeta = getStatusMeta(statusKey);
+
+    card.removeAttribute("is-next");
+    if (isNextEvent) {
+        card.setAttribute("is-next", "true");
+    }
+
+    card.setAttribute("event-status", statusKey);
+    if (locationText) {
+        card.setAttribute("event-city", locationText);
+    }
+    if (ymdhmStart) {
+        card.setAttribute("event-start-time", ymdhmStart);
+    }
+    if (ymdhmEnd) {
+        card.setAttribute("event-end-time", ymdhmEnd);
+    }
+
+    const titleEl = card.querySelector('[event-data="title"]');
+    if (titleEl) titleEl.textContent = title;
+
+    const descriptionEl = card.querySelector('[event-data="description"]');
+    if (descriptionEl) descriptionEl.textContent = description;
+
+    const dateEl = card.querySelector('[event-data="date"]');
+    if (dateEl) dateEl.textContent = dateText;
+
+    const locationEl = card.querySelector('[event-data="location"]');
+    if (locationEl) locationEl.textContent = locationText || "TBA";
+
+    const imageEl = card.querySelector('[event-data="image"]');
+    if (imageEl && imageUrl) {
+        imageEl.src = imageUrl;
+        imageEl.alt = title;
+    }
+
+    const backgroundEl = card.querySelector('[event-data="background"]');
+    if (backgroundEl) {
+        if (cardBackgroundUrl) {
+            if (backgroundEl.tagName === "IMG") {
+                backgroundEl.addEventListener("error", () => {
+                    backgroundEl.src = "https://dashboard.tecla.io/gild/images/events/default-background.webp";
+                    backgroundEl.alt = title || backgroundEl.alt || "Default event background image";
+                });
+                backgroundEl.src = cardBackgroundUrl;
+                backgroundEl.alt = title || backgroundEl.alt || "Event background";
+            } else {
+                backgroundEl.style.backgroundImage = `url("${cardBackgroundUrl}")`;
+            }
+            //backgroundEl.style.display = "";
+        } else {
+            backgroundEl.style.display = "none";
+        }
+    }
+
+    const detailLink = card.querySelector('[event-data="url"]');
+    if (detailLink) {
+        detailLink.href = eventDetailUrl;
+        detailLink.title = title ? `Click to learn more about \"${title}\"` : "Click to learn more";
+    }
+
+    const inviteCta = card.querySelector('[gild-action="invite"]');
+    if (inviteCta) {
+        inviteCta.href = eventUrl;
+    }
+
+    const statusBadge = card.querySelector('[event-data="status"], .status-badge');
+    if (statusBadge) {
+        statusBadge.classList.remove(...STATUS_CLASS_NAMES);
+        statusBadge.textContent = statusMeta.text;
+        statusBadge.classList.add(statusMeta.class);
+    }
+
+    const nextBadge = card.querySelector('[event-data="next"], .next-badge');
+    if (nextBadge) {
+        if (isNextEvent) {
+            nextBadge.textContent = "Next Up";
+            nextBadge.removeAttribute("aria-hidden");
+            nextBadge.setAttribute("aria-label", "Next Up");
+        } else {
+            nextBadge.textContent = "";
+            nextBadge.setAttribute("aria-hidden", "true");
+            nextBadge.removeAttribute("aria-label");
+        }
+    }
+}
+
+function getStatusMeta(statusKey) {
+    const availableStatuses =
+        typeof EVENT_STATUSES !== "undefined" && EVENT_STATUSES
+            ? EVENT_STATUSES
+            : FALLBACK_STATUSES;
+
+    return availableStatuses[statusKey] || FALLBACK_STATUSES.open;
+}
+
+function resolveStatusKey(rawStatus, startDate, endDate) {
+    const normalizedInputStatus = normalizeStatus(rawStatus);
+    let statusKey = STATUS_KEY_MAP[normalizedInputStatus] || "open";
+
+    const hasValidRange =
+        startDate instanceof Date &&
+        !Number.isNaN(startDate.getTime()) &&
+        endDate instanceof Date &&
+        !Number.isNaN(endDate.getTime());
+
+    if (hasValidRange) {
+        const now = new Date();
+        const soonWindowStart = new Date(startDate.getTime() - TWO_WEEKS_MS_LOCAL);
+
+        if (now >= endDate) {
+            statusKey = "finished";
+        } else if (now >= startDate && now < endDate) {
+            statusKey = "live";
+        } else if (now >= soonWindowStart && now < startDate && statusKey !== "full") {
+            statusKey = "almost-full";
+        }
+    }
+
+    return statusKey;
+}
+
+function normalizeStatus(rawStatus) {
+    return String(rawStatus || "")
+        .trim()
+        .toLowerCase()
+        .replace(/_/g, "-")
+        .replace(/\s+/g, "-");
+}
+
+function getNextEventIndex(events) {
+    let nextIndex = -1;
+    let nextStartAt = null;
+    const now = Date.now();
+
+    events.forEach((eventItem, index) => {
+        const startDate = parseIsoDate(eventItem?.start_at);
+        if (!startDate) return;
+
+        const startTs = startDate.getTime();
+        if (startTs <= now) return;
+
+        if (nextStartAt === null || startTs < nextStartAt) {
+            nextStartAt = startTs;
+            nextIndex = index;
+        }
+    });
+
+    return nextIndex;
+}
+
+function parseIsoDate(value) {
+    if (!value) return null;
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function formatLocation(eventItem) {
+    const city = sanitizeText(eventItem?.city, "");
+    const region = sanitizeText(eventItem?.region, "");
+    const country = sanitizeText(eventItem?.country, "");
+
+    const cityRegion = [city, region].filter(Boolean).join(", ");
+    if (cityRegion) return cityRegion;
+
+    const regionCountry = [region, country].filter(Boolean).join(", ");
+    if (regionCountry) return regionCountry;
+
+    return country;
+}
+
+function formatEventDateRange(startDate, endDate, timeZone) {
+    if (!startDate) return "Date & Time";
+
+    const dateFormatter = new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        month: "short",
+        day: "numeric"
+    });
+
+    const timeFormatter = new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        hour: "numeric",
+        minute: "2-digit"
+    });
+
+    const tzLabel = getTzLabel(timeZone, startDate);
+
+    if (!endDate) {
+        return `${dateFormatter.format(startDate)}, ${timeFormatter.format(startDate)} ${tzLabel}`.trim();
+    }
+
+    if (isSameDayInTimeZone(startDate, endDate, timeZone)) {
+        return `${dateFormatter.format(startDate)}, ${timeFormatter.format(startDate)} - ${timeFormatter.format(endDate)} ${tzLabel}`.trim();
+    }
+
+    return `${dateFormatter.format(startDate)}, ${timeFormatter.format(startDate)} - ${dateFormatter.format(endDate)}, ${timeFormatter.format(endDate)} ${tzLabel}`.trim();
+}
+
+function isSameDayInTimeZone(startDate, endDate, timeZone) {
+    return toDateKeyInTimeZone(startDate, timeZone) === toDateKeyInTimeZone(endDate, timeZone);
+}
+
+function toDateKeyInTimeZone(date, timeZone) {
+    const parts = getDateParts(date, timeZone);
+    return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+function toYmdHmInTimeZone(date, timeZone) {
+    const parts = getDateParts(date, timeZone);
+    return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}`;
+}
+
+function getDateParts(date, timeZone) {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        hourCycle: "h23"
+    });
+
+    const map = {};
+    const parts = formatter.formatToParts(date);
+    parts.forEach((part) => {
+        if (part.type !== "literal") {
+            map[part.type] = part.value;
+        }
+    });
+
+    return {
+        year: map.year,
+        month: map.month,
+        day: map.day,
+        hour: map.hour,
+        minute: map.minute
+    };
+}
+
+function getTzLabel(timeZone, date) {
+    const zoneLabels = {
+        "America/Los_Angeles": "PT",
+        "America/Denver": "MT",
+        "America/Phoenix": "MT",
+        "America/Chicago": "CT",
+        "America/New_York": "ET"
+    };
+
+    if (zoneLabels[timeZone]) {
+        return zoneLabels[timeZone];
+    }
+
+    try {
+        const parts = new Intl.DateTimeFormat("en-US", {
+            timeZone,
+            timeZoneName: "short"
+        }).formatToParts(date || new Date());
+
+        return parts.find((part) => part.type === "timeZoneName")?.value || "";
+    } catch (error) {
+        return "";
+    }
+}
+
+function sanitizeText(value, fallback = "") {
+    if (typeof value !== "string") return fallback;
+
+    const decoded =
+        typeof decodeHtmlEntities === "function"
+            ? decodeHtmlEntities(value)
+            : value;
+
+    const trimmed = decoded.trim();
+    return trimmed.length ? trimmed : fallback;
+}
+
+function sanitizeUrl(value) {
+    const parsed = sanitizeText(value, "");
+    if (!parsed) return "#";
+
+    if (/^https?:\/\//i.test(parsed)) {
+        return parsed;
+    }
+
+    if (parsed.startsWith("/")) {
+        return parsed;
+    }
+
+    return "#";
+}
+
+function getSafeTimeZone(timeZone) {
+    const input = sanitizeText(timeZone, DEFAULT_EVENT_TIMEZONE);
+
+    try {
+        new Intl.DateTimeFormat("en-US", { timeZone: input });
+        return input;
+    } catch (error) {
+        return DEFAULT_EVENT_TIMEZONE;
+    }
+}
+
+function buildEventDetailUrl(eventId) {
+    const id = sanitizeText(eventId, "");
+    if (!id) return "/event-detail";
+    return `/event-detail?id=${encodeURIComponent(id)}`;
+}
+
+function buildEventBackgroundImageUrl(eventId) {
+    const id = sanitizeText(eventId, "");
+    if (!id) return "";
+    return `${EVENT_CARD_BACKGROUND_BASE_URL}${id}.webp`;
+}
+
+function getEventGridSpinner() {
+    return document.getElementById("event-grid-spinner");
+}
+
+function showEventGridSpinner(spinner) {
+    if (!spinner) return;
+    spinner.style.display = "flex";
+}
+
+function hideEventGridSpinner(spinner) {
+    if (!spinner) return;
+    spinner.style.display = "none";
+}

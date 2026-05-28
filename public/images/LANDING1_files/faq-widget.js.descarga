@@ -1,0 +1,25 @@
+{
+    // FAQ
+    {
+        const faqQs = document.querySelectorAll(".faq-descr");
+        for (const faqQ of faqQs) {
+            let expItem = faqQ.parentNode.querySelector(".faq-content");
+            expItem && (expItem.style.height = "0px");
+            let chevronIcon = faqQ.querySelector(".chevron-icon");
+            if (expItem) {
+                faqQ.addEventListener("click", (event) => {
+                    const heightDiv = expItem.querySelector(".faq-content-wrapper");
+                    if (heightDiv) {
+                        const newHeight = parseInt(heightDiv.clientHeight) + parseInt($(heightDiv).css("margin-top"));
+                        if (expItem.clientHeight === 0)
+                            expItem.style.height = newHeight.toString() + "px";
+                        else
+                            expItem.style.height = "0px";
+                    }
+                    if (chevronIcon)
+                        chevronIcon.classList.toggle("expanded");
+                });
+            }
+        }
+    }
+}

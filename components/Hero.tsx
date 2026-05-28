@@ -6,7 +6,7 @@ import { trackApplyClick } from "@/lib/analytics";
 import { openRequestInviteModal } from "@/components/RequestInviteModal";
 import { gsap, reduced } from "@/lib/gsap";
 
-const heroImage = "/images/6a075d85473e1e56a5c8df65_DSC09920.jpg";
+const heroImage = "/images/LANDING1_files/699386aa1bc9d6b6925f3043_3f7b9646a90570149eefeb01fac751a0_partners-hero.avif";
 
 export function Hero() {
   const bgRef = useRef<HTMLDivElement>(null);
@@ -53,9 +53,9 @@ export function Hero() {
       </div>
 
       {/* Hero content — wider container than section-shell to prevent cramped feel on large screens */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] min-h-[75vh] items-center px-6 py-16 md:min-h-[calc(100vh-72px)] md:px-12 md:py-24 lg:px-16 xl:px-20">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1600px] min-h-[75vh] items-center px-6 py-16 md:min-h-[calc(100vh-72px)] md:px-12 md:py-24 lg:px-16 xl:px-20 2xl:px-28">
         <div className="hero-drift max-w-[820px] text-left">
-          <h1 className="text-[36px] font-normal leading-[1.08] tracking-[-0.018em] text-white sm:text-[48px] md:text-[60px] lg:text-[70px] xl:text-[78px]">
+          <h1 className="text-[36px] font-normal leading-[1.08] tracking-[-0.018em] text-white sm:text-[48px] md:text-[60px] lg:text-[70px] xl:text-[78px] 2xl:text-[92px]">
             <span className="block overflow-hidden">
               <span
                 className="block"
@@ -75,7 +75,7 @@ export function Hero() {
           </h1>
           <p
             ref={subRef}
-            className="mt-7 max-w-[520px] text-[15px] leading-[1.9] text-white/60 md:text-[17px] lg:text-[18px]"
+            className="mt-7 max-w-[520px] text-[15px] leading-[1.9] text-white/60 md:text-[17px] lg:text-[18px] 2xl:max-w-[620px] 2xl:text-[20px]"
           >
             GILD is a curated network of senior AI and engineering leaders, strategists,
             and technical operators. Join the network to be in our next AI Forum.

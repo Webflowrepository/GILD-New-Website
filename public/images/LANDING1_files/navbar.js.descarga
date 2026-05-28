@@ -1,0 +1,41 @@
+// Navbar code
+window.addEventListener("load", function () {
+    const navbarTrigger = document.querySelector("#navbar-trigger-helper");
+    const gildNavbar = document.querySelector("#gild-navbar");
+    const desktopNavbarCta = document.querySelector("#desktop-navbar-cta");
+    const navMenuBtn = document.querySelector("#nav-menu-btn");
+
+    if(!gildNavbar) return;
+
+    if (!isDesktop) {
+        const allLinks = Array.from(gildNavbar.querySelectorAll('a:not(#nav-menu-btn)'));
+        const backdropCloseOverlay = gildNavbar.querySelector('#close-menu-overlay');
+        backdropCloseOverlay && allLinks.push(backdropCloseOverlay);
+        allLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (navMenuBtn.getAttribute("aria-expanded") === "true")
+                    navMenuBtn.click();
+            });
+        });
+    }
+
+    if (/*isDesktop && */navbarTrigger && gildNavbar) {
+        var observer = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting === true)
+                hideStickyNavbar();
+            else
+                showStickyNavbar();
+        }, { threshold: [0] });
+        observer.observe(navbarTrigger);
+    }
+    function hideStickyNavbar() {
+        if (!gildNavbar) return;
+        gildNavbar.classList.remove("fixed");
+        // desktopNavbarCta && desktopNavbarCta.classList.remove("green");
+    }
+    function showStickyNavbar() {
+        if (!gildNavbar) return;
+        gildNavbar.classList.add("fixed");
+        // desktopNavbarCta && desktopNavbarCta.classList.add("green");
+    }
+});

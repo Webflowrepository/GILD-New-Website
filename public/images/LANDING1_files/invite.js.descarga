@@ -1,0 +1,276 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const inviteModal = document.getElementById("invite-request-modal");
+    const inviteForm = inviteModal ? inviteModal.querySelector("#wf-form-Invite-Requests") : null;
+    const modalWindow = inviteModal?.querySelector(".modal-window");
+    const inviteModalTitle = document.getElementById("invite-modal-title");
+    var finished = false;
+
+    function setCtas() {
+        const inviteCtasArray = Array.from(document.querySelectorAll(`[gild-action="open-invite-modal"]`));
+        for (const inviteCta of inviteCtasArray) {
+            if (inviteCta.hasAttribute("href")) inviteCta.href = "#";
+            inviteCta.removeAttribute("rel");
+            inviteCta.addEventListener("click", openPopup);
+        }
+
+        const closePopupBtns = Array.from(document.querySelectorAll(`[gild-action="close-invite-modal"]`));
+        for (const closeBtn of closePopupBtns) {
+            closeBtn.addEventListener("click", closePopup);
+        }
+    }
+
+    function openPopup(event) {
+        if (event)
+            event.preventDefault();
+        if (inviteModal && modalWindow && inviteModal.style.display !== 'flex') {
+            inviteModal.style.animation = "show-popup .1s linear 1";
+            inviteModal.classList.add("active");
+            modalWindow.style.animation = "popup-appear .15s ease 1";
+            setTimeout(function () {
+                modalWindow.classList.add("active");
+                modalWindow.removeAttribute("style");
+            }, 145);
+        }
+    }
+
+    function closePopup(event) {
+        if (event)
+            event.preventDefault();
+        if (inviteModal && modalWindow && inviteModal.style.display !== "none") {
+            inviteModal.style.animation = "hide-popup .15s linear 1";
+            modalWindow.style.animation = "popup-disappear .15s ease 1";
+            setTimeout(function () {
+                inviteModal.classList.remove("active");
+                inviteModal.removeAttribute("style");
+                modalWindow.classList.remove("active");
+                modalWindow.removeAttribute("style");
+            }, 145);
+        }
+    }
+
+    function fillCompanyDescriptionSelect() {
+        const companyDescriptionSelect = inviteForm
+            ? inviteForm.querySelector("select[name='CompanyDescription']")
+            : null;
+
+        if (!companyDescriptionSelect) return;
+
+        const COMPANY_DESCRIPTION_OPTIONS = [
+            "Cloud",
+            "AI",
+            "DevOps",
+            "Security",
+            "Services",
+            "SaaS",
+            "Fintech",
+            "Healthtech",
+            "Enterprise Software",
+            "Data / Analytics",
+            "Infrastructure",
+            "Developer Tools",
+            "Marketplace",
+            "E-commerce",
+            "Hardware",
+            "Consulting / Professional Services",
+            "Financial Services",
+            "Recruiting / Talent",
+            "Legal",
+            "Banking",
+            "Other"
+        ];
+
+        // Limpia opciones existentes (por si Webflow o algo más inyectó defaults)
+        companyDescriptionSelect.innerHTML = "";
+
+        const placeholderOption = document.createElement("option");
+        placeholderOption.value = "";
+        placeholderOption.textContent = "Please select one...";
+        companyDescriptionSelect.appendChild(placeholderOption);
+
+        COMPANY_DESCRIPTION_OPTIONS.forEach(label => {
+            const option = document.createElement("option");
+            option.value = label;
+            option.textContent = label;
+            companyDescriptionSelect.appendChild(option);
+        });
+    }
+
+
+    function loadInviteForm() {
+        if (!inviteForm) return;
+
+        var referralPageUrl = document.referrer.toString();
+
+        if (referralPageUrl !== null) {
+            inviteForm.elements["referral_url"].value = (referralPageUrl !== '' ? referralPageUrl : 'Unknown referrer (Ad, Direct or Search engine)');
+        }
+
+        fillCompanyDescriptionSelect();
+
+        // HIDDEN FIELDS FILLED WITH UTM DATA
+        if (storageAvailable('localStorage')) {
+            inviteForm.elements["utm_source"].value = localStorage.getItem("utm_source") !== null ? localStorage.getItem("utm_source") : '';
+            inviteForm.elements["utm_medium"].value = localStorage.getItem("utm_medium") !== null ? localStorage.getItem("utm_medium") : '';
+            inviteForm.elements["utm_campaign"].value = localStorage.getItem("utm_campaign") !== null ? localStorage.getItem("utm_campaign") : '';
+            inviteForm.elements["utm_id"].value = localStorage.getItem("utm_id") !== null ? localStorage.getItem("utm_id") : '';
+            inviteForm.elements["utm_content"].value = localStorage.getItem("utm_content") !== null ? localStorage.getItem("utm_content") : '';
+            inviteForm.elements["utm_ip"].value = localStorage.getItem("utm_ip") !== null ? localStorage.getItem("utm_ip") : 'Unknown';
+            inviteForm.elements["utm_city"].value = localStorage.getItem("utm_city") !== null ? localStorage.getItem("utm_city") : 'Unknown';
+            inviteForm.elements["utm_region"].value = localStorage.getItem("utm_region") !== null ? localStorage.getItem("utm_region") : 'Unknown';
+            inviteForm.elements["utm_country"].value = localStorage.getItem("utm_country") !== null ? localStorage.getItem("utm_country") : 'Unknown';
+        }
+
+        inviteForm.querySelectorAll('input[type=email]').forEach(input => {
+            input.addEventListener('input', function () {
+                this.setCustomValidity('');
+                this.value = this.value.trim();
+            });
+        });
+
+        inviteForm.querySelectorAll('input[type=text]').forEach(input => {
+            input.addEventListener('input', function () {
+                this.value = this.value.trimStart();
+            });
+        });
+
+
+        // HANDLE ENGAGEMENT CHECKBOXES
+        const engagementCheckboxes = inviteForm.querySelectorAll("input[name='Engagement']");
+        const engagementLabel = inviteForm.querySelector("label[for='Engagement']");
+        const engagementSummaryField = inviteForm.querySelector("#EngagementSummary");
+
+        if (engagementLabel && !engagementLabel.dataset.originalText) {
+            engagementLabel.dataset.originalText = engagementLabel.textContent;
+        }
+
+        function setEngagementError(hasError) {
+            if (!engagementLabel) return;
+            if (hasError) {
+                engagementLabel.textContent = (engagementLabel.dataset.originalText || engagementLabel.textContent) + " (please select at least one)";
+                engagementLabel.style.color = "#d9534f";
+            } else {
+                engagementLabel.textContent = engagementLabel.dataset.originalText || engagementLabel.textContent;
+                engagementLabel.style.color = "";
+            }
+        }
+
+        // Email validation on submit (capture=true) to support Enter / programmatic submit
+        inviteForm.addEventListener("submit", function (e) {
+            const emailInputs = Array.from(inviteForm.querySelectorAll('input[type=email]'));
+            let firstInvalid = null;
+
+            emailInputs.forEach(input => {
+                const email = (input.value || "").trim().toLowerCase();
+                if (!emailList.test(email)) {
+                    input.setCustomValidity(emailAlert);
+                    if (!firstInvalid) firstInvalid = input;
+                } else {
+                    input.setCustomValidity('');
+                }
+            });
+
+            if (firstInvalid) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                firstInvalid.reportValidity?.();
+                firstInvalid.focus?.();
+                return;
+            }
+        }, true);
+
+        if (engagementCheckboxes.length > 0) {
+            engagementCheckboxes.forEach(cb => {
+                cb.addEventListener("change", () => {
+                    const anyChecked = Array.from(engagementCheckboxes).some(c => c.checked);
+                    if (anyChecked) {
+                        setEngagementError(false);
+                    }
+                });
+            });
+
+            inviteForm.addEventListener("submit", function (e) {
+                const checkedBoxes = Array.from(engagementCheckboxes).filter(cb => cb.checked);
+                const anyChecked = checkedBoxes.length > 0;
+
+                if (!anyChecked) {
+                    if (engagementSummaryField) {
+                        engagementSummaryField.value = "";
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    setEngagementError(true);
+                    engagementCheckboxes[0].focus();
+                    return;
+                }
+
+                if (engagementSummaryField) {
+                    const selectedLabels = checkedBoxes.map(cb => {
+                        const labelEl = cb.closest("label")?.querySelector(".w-form-label");
+                        return labelEl ? labelEl.textContent.trim() : "";
+                    }).filter(Boolean);
+
+                    engagementSummaryField.value = selectedLabels.join(", ");
+                }
+
+                setEngagementError(false);
+
+                if (!inviteForm.querySelector("#kif")) {
+                    cKif(inviteForm.querySelector(".hfb"), inviteForm);
+                }
+                ensureHiddenTextArea("user_journey", getUserJourney(), inviteForm);
+
+            }, true);
+        }
+
+        // END OF HANDLE ENGAGEMENT CHECKBOXES
+
+
+        const wrapper = inviteForm.closest('.w-form') || inviteForm.parentElement;
+        const doneBlock = wrapper?.querySelector('.w-form-done');
+        const failBlock = wrapper?.querySelector('.w-form-fail');
+
+        const isVisible = (el) => !!el && getComputedStyle(el).display !== 'none' && el.getClientRects().length > 0;
+
+        if (wrapper && (doneBlock || failBlock)) {
+            const obs = new MutationObserver(() => {
+                if (doneBlock && isVisible(doneBlock)) {
+                    obs.disconnect();
+                    finish();
+                } else if (failBlock && isVisible(failBlock)) {
+                    //obs.disconnect();
+                    console.log('Form submit failed!');
+                }
+            });
+
+            obs.observe(wrapper, {
+                attributes: true,
+                childList: true,
+                subtree: true,
+                attributeFilter: ['style', 'class']
+            });
+        }
+
+        // FINISH FUNCTION
+        function finish() {
+            if (finished) return;
+            finished = true;
+            inviteModalTitle && (inviteModalTitle.textContent = "Request Sent!");
+            gtag_fire_custom_events();
+            clearStoredUtmData(true);
+            referralPageUrl = '';
+        }
+
+        // GTAG CUSTOM EVENT
+        function gtag_fire_custom_events() {
+            // gtag('event', 'DinnerInviteRequested', {
+            //     'url': window.location.href.toString(),
+            //     'email': $("input[type=email].lcr-input").val().toLowerCase(),
+            // });
+        }
+    }
+
+    setCtas();
+    loadInviteForm();
+});

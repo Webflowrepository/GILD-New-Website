@@ -1,0 +1,459 @@
+const isDesktop = window.innerWidth > 991;
+const emailList = /^([\w.-]+@(?!icloud\.com)(?!protonmail\.com)(?!proton\.me)(?!pm\.me)(?!fastmail\.com)(?!hey\.com)(?!tutanota\.com)(?!zoho\.com)(?!gmail\.com)(?!yahoo\.com)(?!hotmail\.com)(?!aol\.com)(?!hotmail\.co\.uk)(?!hotmail\.fr)(?!msn\.com)(?!yahoo\.fr)(?!wanadoo\.fr)(?!orange\.fr)(?!comcast\.net)(?!yahoo\.co\.uk)(?!yahoo\.com\.br)(?!yahoo\.co\.in)(?!live\.com)(?!rediffmail\.com)(?!free\.fr)(?!gmx\.de)(?!web\.de)(?!yandex\.ru)(?!ymail\.com)(?!libero\.it)(?!outlook\.com)(?!outlook\.es)(?!uol\.com\.br)(?!bol\.com\.br)(?!mail\.ru)(?!cox\.net)(?!hotmail\.it)(?!sbcglobal\.net)(?!sfr\.fr)(?!live\.fr)(?!verizon\.net)(?!live\.co\.uk)(?!googlemail\.com)(?!yahoo\.es)(?!ig\.com\.br)(?!live\.nl)(?!bigpond\.com)(?!terra\.com\.br)(?!yahoo\.it)(?!neuf\.fr)(?!yahoo\.de)(?!alice\.it)(?!rocketmail\.com)(?!att\.net)(?!laposte\.net)(?!facebook\.com)(?!bellsouth\.net)(?!yahoo\.in)(?!hotmail\.es)(?!charter\.net)(?!yahoo\.ca)(?!yahoo\.com\.au)(?!rambler\.ru)(?!hotmail\.de)(?!tiscali\.it)(?!shaw\.ca)(?!yahoo\.co\.jp)(?!sky\.com)(?!earthlink\.net)(?!optonline\.net)(?!freenet\.de)(?!t-online\.de)(?!aliceadsl\.fr)(?!virgilio\.it)(?!home\.nl)(?!qq\.com)(?!telenet\.be)(?!me\.com)(?!yahoo\.com\.ar)(?!tiscali\.co\.uk)(?!yahoo\.com\.mx)(?!voila\.fr)(?!gmx\.net)(?!mail\.com)(?!planet\.nl)(?!tin\.it)(?!live\.it)(?!ntlworld\.com)(?!arcor\.de)(?!yahoo\.co\.id)(?!frontiernet\.net)(?!hetnet\.nl)(?!live\.com\.au)(?!yahoo\.com\.sg)(?!zonnet\.nl)(?!club-internet\.fr)(?!juno\.com)(?!optusnet\.com\.au)(?!blueyonder\.co\.uk)(?!bluewin\.ch)(?!skynet\.be)(?!sympatico\.ca)(?!windstream\.net)(?!mac\.com)(?!centurytel\.net)(?!chello\.nl)(?!live\.ca)(?!aim\.com)(?!bigpond\.net\.au)(?!email\.tst)(?!test\.com)(?!test\.co)(?!test\.net)(?!test\.io)(?!sample\.com)(?!sample\.tst)(?!10minutemail\.com)(?!guerrillamail\.com)(?!mailinator\.com)(?!tempmail\.com)(?!throwawaymail\.com)(?!yopmail\.com)(?!maildrop\.cc)(?!sharklasers\.com)(?!getnada\.com)(?!trashmail\.com)(?!fakeinbox\.com)(?!moakt\.com)(?!jetable\.org)(?!dispostable\.com)(?!mytrashmail\.com)(?!spamgourmet\.com)(?!spamex\.com)(?!filzmail\.com)(?!0mail\.org)(?!tmail\.com)(?!boun\.cr)(?!mailcatch\.com)(?!discard\.email)(?!temporarymail\.com)(?!mintemail\.com)(?!letsgetuoptimize\.com)([\w-]+\.)+[\w-]{2,16})$/;
+const emailAlert = 'Please provide a valid work email address (Not Gmail, Outlook, Yahoo, etc.)';
+const gildhk = "$2a$12$LsOI2s80TQXlZNh97QwSZeps2rcKmbqTST7LFi2hyDFcZnnqj1/vy";
+const isStaging = window.location.hostname === 'gildhq.webflow.io';
+const TECLA_API = isStaging ? "https://dashboard.tecla.io/api-dev" : "https://dashboard.tecla.io/api";
+const CITY_TZ = {
+    "austin, tx": "America/Chicago",
+    "atlanta, ga": "America/New_York",
+    "boston, ma": "America/New_York",
+    "boulder, co": "America/Denver",
+    "chicago, il": "America/Chicago",
+    "dallas, tx": "America/Chicago",
+    "denver, co": "America/Denver",
+    "detroit, mi": "America/Detroit",
+    "houston, tx": "America/Chicago",
+    "los angeles, ca": "America/Los_Angeles",
+    "miami, fl": "America/New_York",
+    "minneapolis, mn": "America/Chicago",
+    "new york, ny": "America/New_York",
+    "phoenix, az": "America/Phoenix",
+    "pittsburgh, pa": "America/New_York",
+    "portland, or": "America/Los_Angeles",
+    "raleigh, nc": "America/New_York",
+    "salt lake city, ut": "America/Denver",
+    "san diego, ca": "America/Los_Angeles",
+    "san francisco, ca": "America/Los_Angeles",
+    "seattle, wa": "America/Los_Angeles"
+};
+
+const EVENT_STATUSES = {
+    "scheduled": { text: "Scheduled", class: "is-scheduled" },
+    "open": { text: "Open", class: "is-open" },
+    "full": { text: "Full", class: "is-full" },
+    "almost-full": { text: "Almost Full", class: "is-almost-full" },
+    "live": { text: "Live Now!", class: "is-live" },
+    "finished": { text: "Finished", class: "is-finished" }
+};
+
+const DEFAULT_TZ = "America/Chicago";
+const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
+const DTF_CACHE = new Map();
+
+const gildUtmPar = new URLSearchParams(window.location.search);
+let utmSource = gildUtmPar.get("utm_source") || (gildUtmPar.get("gclid") ? "google_ad" : null);
+let utmMedium = gildUtmPar.get("utm_medium");
+let utmId = gildUtmPar.get("utm_id") || gildUtmPar.get("adid");
+const utmcp = gildUtmPar.get("utm_campaign") || gildUtmPar.get("gad_campaignid");
+const cpid = gildUtmPar.get("campaignid");
+let utmCampaign;
+if (utmcp && cpid)
+    utmCampaign = 'name = ' + utmcp + ' / id = ' + cpid;
+else if (utmcp && !cpid)
+    utmCampaign = 'name = ' + utmcp;
+else if (!utmcp && cpid)
+    utmCampaign = 'id = ' + cpid;
+const trm = gildUtmPar.get("utm_term");
+const cnt = gildUtmPar.get("utm_content");
+let utmContent;
+if (trm && cnt)
+    utmContent = 'term = ' + trm + ' / content = ' + cnt;
+else if (trm && !cnt)
+    utmContent = 'term = ' + trm;
+else if (!trm && cnt)
+    utmContent = 'content = ' + cnt;
+
+//REFERRAL CAPTURE
+const referralHost = document.referrer ? new URL(document.referrer).hostname : null;
+let extReferral;
+if (referralHost && !referralHost.includes('gildhq.com') && !referralHost.includes('gildhq.webflow.io'))
+    extReferral = document.referrer.toString();
+
+const regionNames = new Intl.DisplayNames(
+    ['en'], { type: 'region' }
+);
+
+// UTM && USER JOURNEY
+
+let cjv;
+
+if (storageAvailable('localStorage')) {
+    (utmSource || utmId || utmMedium) && clearStoredUtmData();
+    utmSource && localStorage.setItem("utm_source", utmSource);
+    utmMedium && localStorage.setItem("utm_medium", utmMedium);
+    utmCampaign && localStorage.setItem("utm_campaign", utmCampaign);
+    utmId && localStorage.setItem("utm_id", utmId);
+    utmContent && localStorage.setItem("utm_content", utmContent);
+    let j_obj;
+    let j_json = localStorage.getItem("user_journey");
+    if (!j_json) {
+        j_json = '[]';
+    }
+    j_obj = JSON.parse(j_json);
+    extReferral && j_obj.push(extReferral);
+    j_obj.push(window.location.href);
+    if (j_obj.length > 100) j_obj.shift();
+    localStorage.setItem("user_journey", JSON.stringify(j_obj));
+}
+
+// LOCATION CAPTURE
+
+function getAndSaveLocation(callback) {
+    if (storageAvailable('localStorage')) {
+        const now = Date.now();
+        const oneWeek = 7 * 24 * 60 * 60 * 1000;
+        const storedAt = localStorage.getItem("utm_country_code_stored_at");
+
+        if (
+            !localStorage.getItem("utm_country_code") ||
+            !storedAt ||
+            now - parseInt(storedAt, 10) > oneWeek
+        ) {
+            fetch('https://ipinfo.io/json?token=c3d0b9f8a141a5')
+                .then((res) => res.json())
+                .then((data) => {
+                    localStorage.setItem("utm_ip", data.ip);
+                    localStorage.setItem("utm_city", data.city);
+                    localStorage.setItem("utm_region", data.region);
+                    localStorage.setItem("utm_country_code", data.country);
+                    localStorage.setItem("utm_country_code_stored_at", now.toString());
+
+                    const countryName = regionNames.of(data.country);
+                    localStorage.setItem(
+                        "utm_country",
+                        countryName && countryName.length > 0 ? countryName : data.country
+                    );
+
+                    if (isInLatam(data.country)) {
+                        localStorage.setItem("isInLatam", data.country);
+                        localStorage.removeItem("isInUSA");
+                    } else if (isInUSA(data.country)) {
+                        localStorage.setItem("isInUSA", data.country);
+                        localStorage.removeItem("isInLatam");
+                    } else {
+                        localStorage.removeItem("isInLatam");
+                        localStorage.removeItem("isInUSA");
+                    }
+
+                    if (callback) callback();
+                })
+                .catch(() => {
+
+                });
+        } else {
+            if (
+                !localStorage.getItem("isInLatam") &&
+                isInLatam(localStorage.getItem("utm_country_code"))
+            ) {
+                localStorage.setItem("isInLatam", localStorage.getItem("utm_country_code"));
+            }
+            if (callback) callback();
+        }
+    }
+}
+
+const isInLatam = function (cCode) {
+    return cCode &&
+        (cCode === "AR" ||
+            cCode === "BO" ||
+            cCode === "BR" ||
+            cCode === "CL" ||
+            cCode === "CO" ||
+            cCode === "EC" ||
+            cCode === "PY" ||
+            cCode === "PE" ||
+            cCode === "UY" ||
+            cCode === "VE" ||
+            cCode === "CR" ||
+            cCode === "CU" ||
+            cCode === "DO" ||
+            cCode === "SV" ||
+            cCode === "GT" ||
+            cCode === "HN" ||
+            cCode === "MX" ||
+            cCode === "NI" ||
+            cCode === "PA" ||
+            cCode === "PR" ||
+            cCode === "TT");
+}
+
+const isInLatamStoredData = function () {
+    return localStorage.getItem("isInLatam");
+}
+
+const isInUSA = function (cCode) {
+    return cCode &&
+        (cCode === "US");
+}
+const isInUSAStoredData = function () {
+    return localStorage.getItem("isInUSA");
+}
+
+// EXECUTION ON LOAD
+window.addEventListener("load", function () {
+    getAndSaveLocation();
+    (() => {
+        let heroFsVideo = document.getElementById("hero-video");
+        if (heroFsVideo) {
+            heroFsVideo.playbackRate = 1;
+            heroFsVideo.play();
+        }
+    })();
+});
+
+
+// >>>>>>>>>>>>>>>>>>> GLOBAL UTILITIES >>>>>>>>>>>>>>>>>>>
+
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        const x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch (e) {
+        return e instanceof DOMException && (
+            e.code === 22 ||
+            e.code === 1014 ||
+            e.name === 'QuotaExceededError' ||
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            (storage && storage.length !== 0);
+    }
+}
+
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getRandomBool() {
+    return Math.random() < 0.5;
+}
+
+function padWithZeros(num, size) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
+}
+
+function clearStoredUtmData(clearUserjourney) {
+    if (storageAvailable('localStorage')) {
+        localStorage.removeItem("utm_source");
+        localStorage.removeItem("utm_medium");
+        localStorage.removeItem("utm_campaign");
+        localStorage.removeItem("utm_id");
+        localStorage.removeItem("utm_content");
+        clearUserjourney && localStorage.removeItem("user_journey");
+    }
+}
+
+function getUserJourney() {
+    var jValue = '';
+    if (storageAvailable('localStorage')) {
+        const usr_j = localStorage.getItem("user_journey");
+        const usr_o = usr_j !== null ? JSON.parse(usr_j) : [];
+        for (let ix = 0; ix < usr_o.length; ix++) {
+            const url = usr_o[ix];
+            jValue = (ix == (usr_o.length - 1) ? 'OK > ' : padWithZeros(ix + 1, 2) + ' > ') +
+                url + ' \n' +
+                jValue;
+        }
+    }
+    if (jValue.length > 5)
+        cjv = jValue.substring(0, 5000);
+
+    else
+        cjv = 'Unknown';
+    return cjv;
+}
+
+function cKif(pDiv, altDiv) {
+    const kif = document.createElement("input");
+    kif.style.display = "none";
+    kif.type = "text";
+    kif.maxLength = 128;
+    kif.placeholder = "";
+    kif.required = true;
+    kif.classList.add("w-input");
+    kif.setAttribute("name", "kif");
+    kif.setAttribute("data-name", "kif");
+    kif.tabIndex = -1;
+    kif.autocomplete = "off";
+    kif.setAttribute("aria-hidden", "true");
+    kif.value = window.location.hostname + ">" + gildhk;
+    pDiv && pDiv.appendChild(kif);
+    !pDiv && altDiv && altDiv.appendChild(kif);
+}
+
+function fill_dropdown(dropdown_element, value_list) {
+    if (dropdown_element.tagName === 'SELECT') {
+        if (dropdown_element && value_list) {
+            for (single_value of value_list) {
+                let opt = document.createElement("option");
+                opt.value = single_value.value;
+                opt.innerHTML = single_value.text;
+                dropdown_element.append(opt);
+            }
+        }
+    }
+    else {
+        console.log("Element is a " + dropdown_element.tagName + ", it must be a SELECT element");
+    }
+}
+
+function sortArrayByKey(array, key) {
+    if (!array) return null;
+    return array.sort(function (a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
+function numberWithCommas(x) {
+    var n = parseInt(x);
+    return n.toLocaleString('en-US');
+}
+
+function toCurrency(amount) {
+    return isNaN(amount) ?
+        ('$' + amount) :
+        new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(amount);
+}
+
+function getTimeZoneForCity(cityAttr) {
+    if (!cityAttr) return DEFAULT_TZ;
+    const key = cityAttr.trim().toLowerCase();
+    return CITY_TZ[key] || DEFAULT_TZ;
+}
+
+function getUtcOffsetHours(timeZone, onDate = new Date()) {
+    const ms = getTimeZoneOffsetMs(onDate, timeZone);
+    return Math.round(ms / 3600000);
+}
+
+function getUtcOffsetHoursForCity(cityAttr, onDate = new Date()) {
+    const tz = getTimeZoneForCity(cityAttr);
+    return getUtcOffsetHours(tz, onDate);
+}
+
+function getUtcOffsetHoursForCityAt(cityAttr, ymdhm) {
+    const tz = getTimeZoneForCity(cityAttr);
+    const m = ymdhm.match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{1,2}):(\d{2})$/);
+    if (!m) return null;
+    const y = +m[1], mo = +m[2], d = +m[3], h = +m[4], mi = +m[5];
+    const guess = new Date(Date.UTC(y, mo - 1, d, h, mi, 0, 0));
+    const ms = getTimeZoneOffsetMs(guess, tz);
+    return Math.round(ms / 3600000);
+}
+
+function getTimeZoneOffsetMs(date, timeZone) {
+    const parts = getDTF(timeZone).formatToParts(date);
+    const map = {};
+    for (const p of parts) if (p.type !== 'literal') map[p.type] = p.value;
+    const asUTC = Date.UTC(+map.year, +map.month - 1, +map.day, +map.hour, +map.minute, +map.second);
+    return asUTC - date.getTime();
+}
+
+function parseInTimeZone_YMDHM(str, timeZone) {
+    const m = str.match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{1,2}):(\d{2})$/);
+    if (!m) return null;
+    const y = +m[1], mo = +m[2], d = +m[3], h = +m[4], mi = +m[5];
+
+    const guess = new Date(Date.UTC(y, mo - 1, d, h, mi, 0, 0));
+    const offset = getTimeZoneOffsetMs(guess, timeZone);
+    return new Date(guess.getTime() - offset);
+}
+
+function getDTF(timeZone) {
+    let dtf = DTF_CACHE.get(timeZone);
+    if (!dtf) {
+        dtf = new Intl.DateTimeFormat('en-US', {
+            timeZone,
+            calendar: 'gregory',
+            hour12: false,
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        DTF_CACHE.set(timeZone, dtf);
+    }
+    return dtf;
+}
+
+function getTimeZoneAbbreviationForCity(cityAttr) {
+    const tz = getTimeZoneForCity(cityAttr);
+    switch (tz) {
+        case "America/Los_Angeles":
+            return "PT"; // Pacific Time
+        case "America/Denver":
+        case "America/Phoenix":
+        case "America/Salt_Lake_City":
+            return "MT"; // Mountain Time
+        case "America/Chicago":
+        case "America/Houston":
+        case "America/Minneapolis":
+            return "CT"; // Central Time
+        case "America/New_York":
+        case "America/Detroit":
+        case "America/Atlanta":
+        case "America/Miami":
+        case "America/Boston":
+            return "ET"; // Eastern Time
+        default:
+            return "CT"; // fallback DEFAULT_TZ
+    }
+}
+
+function decodeHtmlEntities(str) {
+    if (!str) return "";
+
+    return str
+        .replace(/\\n/g, "")
+        .replace(/\\"/g, '"')
+        .replace(/\\\\/g, "\\")
+        .replace(/^\s+|\s+$/g, "");
+}
+
+function scrollToElementId(elementId, smooth = true) {
+    document.getElementById(elementId).scrollIntoView({
+        block: "start",
+        behavior: smooth ? "smooth" : "instant"
+    });
+}
+
+function ensureHiddenTextArea(name, value, formEl, maxLength = 5000) {
+    if (!formEl) return null;
+
+    const container = formEl.querySelector(".hfb") || formEl;
+
+    let ta = container.querySelector(`textarea[name="${name}"]`);
+
+    if (!ta) {
+        ta = document.createElement("textarea");
+
+        ta.className = "w-input";
+        ta.name = name;
+        ta.setAttribute("data-name", name);
+
+        ta.tabIndex = -1;
+        ta.autocomplete = "off";
+        ta.setAttribute("aria-hidden", "true");
+
+        ta.style.position = "absolute";
+        ta.style.left = "-9999px";
+        ta.style.width = "1px";
+        ta.style.height = "1px";
+        ta.style.opacity = "0";
+
+        ta.required = false;
+        ta.maxLength = maxLength;
+
+        container.appendChild(ta);
+    }
+
+    ta.value = typeof value === "string" ? value.slice(0, maxLength) : "";
+    return ta;
+}
