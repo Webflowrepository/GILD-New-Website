@@ -139,7 +139,7 @@ export function SocialProof() {
             <article
               key={testimonial.name}
               data-card-key={testimonial.name}
-              className={`rounded-card border border-slate-700 bg-slate-800 p-6 transition duration-500 hover:-translate-y-0.5 hover:border-teal-500/30 ${
+              className={`rounded-card border border-[#17212c] bg-[#05080c] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)] transition duration-500 hover:-translate-y-0.5 hover:border-teal-500/30 ${
                 visibleCards.has(testimonial.name)
                   ? "translate-y-0 opacity-100"
                   : "translate-y-4 opacity-0"

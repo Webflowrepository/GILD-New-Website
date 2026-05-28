@@ -153,7 +153,7 @@ export function RequestInviteModal() {
             aria-label="Close request invite form"
             className="absolute right-4 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center bg-slate-900 text-2xl leading-none text-white hover:bg-slate-700"
           >
-            ×
+            x
           </button>
         </div>
 

@@ -100,7 +100,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t border-slate-700 pt-6">
-          <p className="text-xs text-white">© 2026 Gild</p>
+          <p className="text-xs text-white">(c) 2026 Gild</p>
         </div>
       </div>
     </footer>

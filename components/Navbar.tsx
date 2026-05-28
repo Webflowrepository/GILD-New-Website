@@ -73,7 +73,7 @@ export function Navbar() {
           aria-expanded={isOpen}
           onClick={() => setIsOpen((open) => !open)}
         >
-          <span className="text-2xl">{isOpen ? "×" : "☰"}</span>
+          <span className="text-2xl">{isOpen ? "x" : "menu"}</span>
         </button>
       </nav>
       {isOpen ? (
