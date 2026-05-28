@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger, reduced } from "@/lib/gsap";
+import { gsap, mobileStart, ScrollTrigger, reduced } from "@/lib/gsap";
 import { forumEvents } from "@/lib/events";
 
 export function UpcomingForums() {
@@ -21,7 +21,7 @@ export function UpcomingForums() {
         y: 20,
         duration: 0.65,
         ease: "power2.out",
-        scrollTrigger: { trigger, start: "top 82%", once: true },
+        scrollTrigger: { trigger, start: mobileStart(), once: true },
       });
 
       if (gridRef.current) {
@@ -30,7 +30,7 @@ export function UpcomingForums() {
         // GSAP's initial state set on mount (which would make cards invisible)
         ScrollTrigger.create({
           trigger: gridRef.current,
-          start: "top 84%",
+          start: mobileStart("top 84%"),
           once: true,
           onEnter: () => {
             gsap.fromTo(

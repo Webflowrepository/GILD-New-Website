@@ -81,7 +81,7 @@ summary::-webkit-details-marker {
 }
 
 .section-pad {
-  @apply py-14 md:py-20 lg:py-28;
+  @apply py-10 md:py-20 lg:py-28;
 }
 
 .section-label {

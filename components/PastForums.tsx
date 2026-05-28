@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { gsap, reduced } from "@/lib/gsap";
+import { gsap, mobileStart, reduced } from "@/lib/gsap";
 
 type EventData = {
   date: string;
@@ -106,7 +106,7 @@ export function PastForums() {
         y: 28,
         duration: 0.72,
         ease: "power2.out",
-        scrollTrigger: { trigger, start: "top 82%", once: true },
+        scrollTrigger: { trigger, start: mobileStart(), once: true },
       });
 
       if (listRef.current) {
@@ -117,7 +117,7 @@ export function PastForums() {
           duration: 0.55,
           stagger: 0.07,
           ease: "power2.out",
-          scrollTrigger: { trigger, start: "top 78%", once: true },
+          scrollTrigger: { trigger, start: mobileStart("top 78%"), once: true },
         });
       }
     });

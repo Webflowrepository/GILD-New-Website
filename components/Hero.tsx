@@ -36,7 +36,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-[calc(100vh-72px)] overflow-hidden bg-[#050403]">
+    <section className="relative min-h-[75vh] overflow-hidden bg-[#050403] md:min-h-[calc(100vh-72px)]">
       <div ref={bgRef} className="absolute inset-0">
         <Image
           src={heroImage}
@@ -53,7 +53,7 @@ export function Hero() {
       </div>
 
       {/* Hero content — wider container than section-shell to prevent cramped feel on large screens */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] min-h-[calc(100vh-72px)] items-center px-6 py-20 md:px-12 md:py-24 lg:px-16 xl:px-20">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] min-h-[75vh] items-center px-6 py-16 md:min-h-[calc(100vh-72px)] md:px-12 md:py-24 lg:px-16 xl:px-20">
         <div className="hero-drift max-w-[820px] text-left">
           <h1 className="text-[36px] font-normal leading-[1.08] tracking-[-0.018em] text-white sm:text-[48px] md:text-[60px] lg:text-[70px] xl:text-[78px]">
             <span className="block overflow-hidden">
@@ -88,6 +88,30 @@ export function Hero() {
           >
             Request Access
           </button>
+        </div>
+      </div>
+      {/* Scroll indicator — mobile only */}
+      <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 md:hidden">
+        <div className="flex flex-col items-center gap-1.5 opacity-40">
+          <span className="text-[9px] font-medium uppercase tracking-[0.28em] text-white">
+            Scroll
+          </span>
+          <svg
+            width="12"
+            height="8"
+            viewBox="0 0 12 8"
+            fill="none"
+            className="animate-bounce text-white"
+            aria-hidden
+          >
+            <path
+              d="M1 1L6 6L11 1"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
       </div>
     </section>

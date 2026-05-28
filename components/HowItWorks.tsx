@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { gsap, reduced } from "@/lib/gsap";
+import { gsap, mobileStart, reduced } from "@/lib/gsap";
 
 const steps = [
   {
@@ -90,7 +90,7 @@ export function HowItWorks() {
         y: 24,
         duration: 0.7,
         ease: "power2.out",
-        scrollTrigger: { trigger: headerRef.current, start: "top 84%", once: true },
+        scrollTrigger: { trigger: headerRef.current, start: mobileStart("top 84%"), once: true },
       });
     });
     return () => ctx.revert();

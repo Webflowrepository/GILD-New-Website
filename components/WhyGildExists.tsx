@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger, reduced } from "@/lib/gsap";
+import { gsap, mobileStart, ScrollTrigger, reduced } from "@/lib/gsap";
 import { trackApplyClick } from "@/lib/analytics";
 import { openRequestInviteModal } from "@/components/RequestInviteModal";
 
@@ -66,7 +66,7 @@ export function WhyGildExists() {
         gsap.from(Array.from(leftRef.current.children), {
           opacity: 0, y: 26,
           duration: 0.7, stagger: 0.12, ease: "power2.out",
-          scrollTrigger: { trigger, start: "top 78%", once: true }
+          scrollTrigger: { trigger, start: mobileStart("top 78%"), once: true }
         });
       }
 
@@ -76,7 +76,7 @@ export function WhyGildExists() {
           gsap.from(ref.current, {
             opacity: 0, scale: 0.975,
             duration: 1.0, ease: "power3.out",
-            scrollTrigger: { trigger, start: "top 78%", once: true }
+            scrollTrigger: { trigger, start: mobileStart("top 78%"), once: true }
           });
         }
       });
@@ -87,7 +87,7 @@ export function WhyGildExists() {
           gsap.from(ref.current, {
             scaleX: 0, transformOrigin: "left center",
             duration: 0.9, ease: "power2.out",
-            scrollTrigger: { trigger: ref.current, start: "top 91%", once: true }
+            scrollTrigger: { trigger: ref.current, start: mobileStart("top 91%", "top 96%"), once: true }
           });
         }
       });
@@ -97,7 +97,7 @@ export function WhyGildExists() {
         const items = pillarsRef.current.querySelectorAll("[data-pillar]");
         ScrollTrigger.create({
           trigger: pillarsRef.current,
-          start: "top 84%",
+          start: mobileStart("top 84%"),
           once: true,
           onEnter: () => {
             gsap.fromTo(Array.from(items),
@@ -112,13 +112,13 @@ export function WhyGildExists() {
       if (fitRef.current) {
         gsap.from(fitRef.current, {
           opacity: 0, x: -20, duration: 0.62, ease: "power2.out",
-          scrollTrigger: { trigger: fitRef.current, start: "top 88%", once: true }
+          scrollTrigger: { trigger: fitRef.current, start: mobileStart("top 88%", "top 95%"), once: true }
         });
       }
       if (notFitRef.current) {
         gsap.from(notFitRef.current, {
           opacity: 0, x: 20, duration: 0.62, ease: "power2.out",
-          scrollTrigger: { trigger: notFitRef.current, start: "top 88%", once: true }
+          scrollTrigger: { trigger: notFitRef.current, start: mobileStart("top 88%", "top 95%"), once: true }
         });
       }
     });

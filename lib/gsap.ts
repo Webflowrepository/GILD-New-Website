@@ -12,6 +12,17 @@ export const reduced = (): boolean =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/**
+ * Returns a more forgiving ScrollTrigger start on narrow viewports.
+ * Mobile screens are shorter, so triggers fire later relative to the
+ * section — using a higher % ensures animations aren't missed.
+ */
+export const mobileStart = (
+  desktop = "top 82%",
+  mobile = "top 92%"
+): string =>
+  typeof window !== "undefined" && window.innerWidth < 768 ? mobile : desktop;
+
 /** Shared scroll-triggered fade+rise reveal — wraps common pattern */
 export function revealOnScroll(
   targets: gsap.TweenTarget,

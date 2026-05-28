@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { gsap, reduced } from "@/lib/gsap";
+import { gsap, mobileStart, reduced } from "@/lib/gsap";
 import { faqs } from "@/lib/faqs";
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
@@ -91,7 +91,7 @@ export function FAQ() {
         y: 20,
         duration: 0.65,
         ease: "power2.out",
-        scrollTrigger: { trigger, start: "top 82%", once: true },
+        scrollTrigger: { trigger, start: mobileStart(), once: true },
       });
 
       if (listRef.current) {
@@ -102,7 +102,7 @@ export function FAQ() {
           duration: 0.55,
           stagger: 0.07,
           ease: "power2.out",
-          scrollTrigger: { trigger, start: "top 80%", once: true },
+          scrollTrigger: { trigger, start: mobileStart("top 80%"), once: true },
         });
       }
     });

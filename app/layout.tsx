@@ -4,6 +4,7 @@ import { DM_Serif_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ScrollBackground } from "@/components/ScrollBackground";
 import { RequestInviteModal } from "@/components/RequestInviteModal";
+import { MobileCtaBar } from "@/components/MobileCtaBar";
 import { faqs } from "@/lib/faqs";
 
 const montserrat = Montserrat({
@@ -90,6 +91,7 @@ export default function RootLayout({
       <body className="font-sans">
         <ScrollBackground />
         <RequestInviteModal />
+        <MobileCtaBar />
         <Script
           defer
           data-domain="gildhq.com"

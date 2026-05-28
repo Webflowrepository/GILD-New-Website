@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { trackFormSubmit } from "@/lib/analytics";
-import { gsap, reduced } from "@/lib/gsap";
+import { gsap, mobileStart, reduced } from "@/lib/gsap";
 
 type FormState = {
   firstName: string;
@@ -72,7 +72,7 @@ export function ApplicationForm() {
         duration: 0.72,
         stagger: 0.12,
         ease: "power2.out",
-        scrollTrigger: { trigger, start: "top 80%", once: true },
+        scrollTrigger: { trigger, start: mobileStart("top 80%"), once: true },
       });
     });
     return () => ctx.revert();
