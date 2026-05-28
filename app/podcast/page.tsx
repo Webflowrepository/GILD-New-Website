@@ -49,8 +49,10 @@ export default function PodcastPage() {
               sizes="100vw"
               className="object-cover object-center"
             />
-            {/* Left-to-right fade so text stays readable */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a1520]/95 via-[#0a1520]/70 to-[#0a1520]/20" />
+            {/* Left black gradient */}
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.96)_0%,rgba(0,0,0,0.75)_25%,rgba(0,0,0,0.15)_50%,rgba(0,0,0,0.0)_60%)]" />
+            {/* Right black gradient */}
+            <div className="absolute inset-0 bg-[linear-gradient(270deg,rgba(0,0,0,0.92)_0%,rgba(0,0,0,0.60)_20%,rgba(0,0,0,0.0)_45%)]" />
             {/* Bottom fade into page bg */}
             <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#07090c] to-transparent" />
           </div>
