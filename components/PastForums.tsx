@@ -1,16 +1,29 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { gsap, reduced } from "@/lib/gsap";
 
-const visibleEvents = [
-  { date: "May 27, 2026", title: "AI and Engineering Leaders Dinner", location: "Austin, TX" },
+type EventData = {
+  date: string;
+  title: string;
+  location: string;
+  href?: string;
+};
+
+const visibleEvents: EventData[] = [
+  {
+    date: "May 27, 2026",
+    title: "AI and Engineering Leaders Dinner",
+    location: "Austin, TX",
+    href: "/past-events/ai-and-engineering-leaders-dinner-austin-may-27-2026"
+  },
   { date: "May 12, 2026", title: "Making AI Gains Stick", location: "Austin, TX" },
   { date: "Apr 28, 2026", title: "AI Agents in Real Workflows", location: "Austin, TX" },
   { date: "Apr 14, 2026", title: "Speed as an AI Advantage", location: "Dallas, TX" },
 ];
 
-const hiddenEvents = [
+const hiddenEvents: EventData[] = [
   { date: "Mar 31, 2026", title: "Hiring and Retaining AI Talent", location: "Miami, FL" },
   { date: "Mar 17, 2026", title: "Build vs. Buy: AI Infrastructure", location: "Austin, TX" },
   { date: "Mar 3, 2026", title: "AI ROI: Making the Business Case", location: "Dallas, TX" },
@@ -19,7 +32,46 @@ const hiddenEvents = [
   { date: "Jan 20, 2026", title: "Engineering Culture in the AI Era", location: "Austin, TX" },
 ];
 
-function EventRow({ date, title, location }: { date: string; title: string; location: string }) {
+function EventRow({ date, title, location, href }: EventData) {
+  const inner = (
+    <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
+      <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:gap-7">
+        <p className={`w-[140px] shrink-0 text-[10px] font-medium uppercase tracking-[0.28em] transition-colors duration-200 ${
+          href ? "text-[#5a9a9b] group-hover:text-[#6db0b1]" : "text-[#5a9a9b]"
+        }`}>
+          {date}
+        </p>
+        <p className={`font-serif text-[17px] leading-snug transition-colors duration-200 ${
+          href ? "text-white/85 group-hover:text-white" : "text-white/85"
+        }`}>
+          {title}
+          {href && (
+            <span className="ml-3 inline-block translate-x-0 text-[13px] text-[#5a9a9b] opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
+              →
+            </span>
+          )}
+        </p>
+      </div>
+      <p className={`shrink-0 text-[11px] uppercase tracking-[0.18em] transition-colors duration-200 ${
+        href ? "text-white/32 group-hover:text-white/48" : "text-white/32"
+      }`}>
+        {location}
+      </p>
+    </div>
+  );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        data-event-row
+        className="group block border-b border-[rgba(255,248,235,0.06)] py-5 transition-colors duration-200 hover:border-[rgba(90,154,155,0.22)] cursor-pointer"
+      >
+        {inner}
+      </Link>
+    );
+  }
+
   return (
     <div
       data-event-row
@@ -107,7 +159,7 @@ export function PastForums() {
   };
 
   return (
-    <section ref={sectionRef} className="section-pad bg-[#0a0806]">
+    <section ref={sectionRef} id="past-forums" className="section-pad bg-[#0a0806]">
       <div className="section-shell">
 
         <div ref={headerRef} className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

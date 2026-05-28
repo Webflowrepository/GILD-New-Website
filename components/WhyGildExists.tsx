@@ -2,65 +2,58 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { gsap, reduced } from "@/lib/gsap";
+import { gsap, ScrollTrigger, reduced } from "@/lib/gsap";
+import { trackApplyClick } from "@/lib/analytics";
+import { openRequestInviteModal } from "@/components/RequestInviteModal";
 
-function IconRooms() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <rect x="1" y="1" width="6" height="6" rx="1.2" stroke="currentColor" strokeWidth="1.1" />
-      <rect x="9" y="1" width="6" height="6" rx="1.2" stroke="currentColor" strokeWidth="1.1" />
-      <rect x="1" y="9" width="6" height="6" rx="1.2" stroke="currentColor" strokeWidth="1.1" />
-      <rect x="9" y="9" width="6" height="6" rx="1.2" stroke="currentColor" strokeWidth="1.1" />
-    </svg>
-  );
-}
-
-function IconOperators() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <circle cx="6" cy="5.5" r="2.5" stroke="currentColor" strokeWidth="1.1" />
-      <path d="M1 13.5c0-2.761 2.239-4 5-4s5 1.239 5 4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-      <circle cx="12" cy="6" r="2" stroke="currentColor" strokeWidth="1.1" />
-      <path d="M12 10.5c1.657 0 3 .895 3 3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function IconSignal() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <rect x="1.5" y="9" width="2.5" height="5.5" rx="0.8" stroke="currentColor" strokeWidth="1.1" />
-      <rect x="6.5" y="5.5" width="2.5" height="9" rx="0.8" stroke="currentColor" strokeWidth="1.1" />
-      <rect x="11.5" y="1.5" width="2.5" height="13" rx="0.8" stroke="currentColor" strokeWidth="1.1" />
-    </svg>
-  );
-}
-
-const principles = [
+const pillars = [
   {
-    Icon: IconRooms,
-    title: "Curated rooms.",
-    body: "Intentionally small. Off-the-record conversations designed for substance over networking theater."
+    num: "01",
+    title: "Curated rooms",
+    body: "Private, off-the-record dinners and forums."
   },
   {
-    Icon: IconOperators,
-    title: "Senior operators.",
-    body: "Built around engineering leaders, strategists, and operators serious about what they're building."
+    num: "02",
+    title: "Serious operators",
+    body: "Founders, CEOs, CTOs, and engineering leaders."
   },
   {
-    Icon: IconSignal,
-    title: "High-signal by design.",
-    body: "No selling. No demos. Just real peer-to-peer conversation between people building the future of AI."
+    num: "03",
+    title: "Useful signal",
+    body: "No panels. No demos. No networking theater."
   }
 ];
 
+const fitItems = [
+  "Senior operators building with AI.",
+  "People who value useful conversation.",
+  "Leaders who prefer depth over visibility."
+];
+
+const notFitItems = [
+  "Vendor exposure.",
+  "Passive community.",
+  "Surface-level networking."
+];
+
+// Image used in both desktop column and mobile fallback
+const EVENT_IMG = "/images/DSC09759.jpg";
+
 export function WhyGildExists() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLParagraphElement>(null);
-  const quoteRef = useRef<HTMLParagraphElement>(null);
-  const dividerRef = useRef<HTMLDivElement>(null);
-  const principlesRef = useRef<HTMLDivElement>(null);
+  const sectionRef   = useRef<HTMLElement>(null);
+  const leftRef      = useRef<HTMLDivElement>(null);
+  const imgDesktop   = useRef<HTMLDivElement>(null);
+  const imgMobile    = useRef<HTMLDivElement>(null);
+  const div1Ref      = useRef<HTMLDivElement>(null);
+  const pillarsRef   = useRef<HTMLDivElement>(null);
+  const div2Ref      = useRef<HTMLDivElement>(null);
+  const fitRef       = useRef<HTMLDivElement>(null);
+  const notFitRef    = useRef<HTMLDivElement>(null);
+
+  const requestAccess = () => {
+    trackApplyClick("why_gild_exists");
+    openRequestInviteModal();
+  };
 
   useEffect(() => {
     if (reduced()) return;
@@ -68,40 +61,64 @@ export function WhyGildExists() {
       const trigger = sectionRef.current;
       if (!trigger) return;
 
-      gsap.from(imageRef.current, {
-        opacity: 0,
-        scale: 0.97,
-        duration: 1.0,
-        ease: "power3.out",
-        scrollTrigger: { trigger, start: "top 80%", once: true },
+      // Left column children
+      if (leftRef.current) {
+        gsap.from(Array.from(leftRef.current.children), {
+          opacity: 0, y: 26,
+          duration: 0.7, stagger: 0.12, ease: "power2.out",
+          scrollTrigger: { trigger, start: "top 78%", once: true }
+        });
+      }
+
+      // Image (desktop + mobile)
+      [imgDesktop, imgMobile].forEach((ref) => {
+        if (ref.current) {
+          gsap.from(ref.current, {
+            opacity: 0, scale: 0.975,
+            duration: 1.0, ease: "power3.out",
+            scrollTrigger: { trigger, start: "top 78%", once: true }
+          });
+        }
       });
 
-      gsap.from([labelRef.current, quoteRef.current], {
-        opacity: 0,
-        y: 28,
-        duration: 0.72,
-        stagger: 0.15,
-        ease: "power2.out",
-        scrollTrigger: { trigger, start: "top 78%", once: true },
+      // Dividers
+      [div1Ref, div2Ref].forEach((ref) => {
+        if (ref.current) {
+          gsap.from(ref.current, {
+            scaleX: 0, transformOrigin: "left center",
+            duration: 0.9, ease: "power2.out",
+            scrollTrigger: { trigger: ref.current, start: "top 91%", once: true }
+          });
+        }
       });
 
-      gsap.from(dividerRef.current, {
-        scaleX: 0,
-        transformOrigin: "left center",
-        duration: 0.9,
-        ease: "power2.out",
-        scrollTrigger: { trigger, start: "top 70%", once: true },
-      });
+      // Pillars stagger on enter
+      if (pillarsRef.current) {
+        const items = pillarsRef.current.querySelectorAll("[data-pillar]");
+        ScrollTrigger.create({
+          trigger: pillarsRef.current,
+          start: "top 84%",
+          once: true,
+          onEnter: () => {
+            gsap.fromTo(Array.from(items),
+              { opacity: 0, y: 22 },
+              { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power2.out", clearProps: "opacity,transform" }
+            );
+          }
+        });
+      }
 
-      const items = principlesRef.current?.querySelectorAll("[data-principle]");
-      if (items?.length) {
-        gsap.from(Array.from(items), {
-          opacity: 0,
-          y: 22,
-          duration: 0.65,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: { trigger, start: "top 65%", once: true },
+      // Fit / not-fit columns
+      if (fitRef.current) {
+        gsap.from(fitRef.current, {
+          opacity: 0, x: -20, duration: 0.62, ease: "power2.out",
+          scrollTrigger: { trigger: fitRef.current, start: "top 88%", once: true }
+        });
+      }
+      if (notFitRef.current) {
+        gsap.from(notFitRef.current, {
+          opacity: 0, x: 20, duration: 0.62, ease: "power2.out",
+          scrollTrigger: { trigger: notFitRef.current, start: "top 88%", once: true }
         });
       }
     });
@@ -109,49 +126,136 @@ export function WhyGildExists() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="why" className="section-pad section-bridge bg-[#0d0b09]">
+    <section ref={sectionRef} id="why" className="section-pad bg-[#0d0b09]">
       <div className="section-shell">
-        <div className="grid gap-6 lg:grid-cols-[58fr_42fr] lg:gap-10 lg:items-stretch">
 
-          <div ref={imageRef} className="relative aspect-[4/3] overflow-hidden rounded-card lg:aspect-auto lg:min-h-[600px]">
-            <Image
-              src="/images/698cced70159f31e5d1a0306_DSCF3589%201.avif"
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 58vw, 100vw"
-              className="object-cover [filter:saturate(0.82)_contrast(1.06)]"
-              style={{ objectPosition: "center 40%" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b09]/50 via-transparent to-transparent" />
-          </div>
+        {/* ─────────────────────────────────────────────────
+            TOP AREA: editorial two-column (desktop)
+            stacked text → CTA → image (mobile)
+        ───────────────────────────────────────────────── */}
+        <div className="grid lg:grid-cols-[54fr_46fr] lg:items-stretch lg:gap-12">
 
-          <div className="flex flex-col justify-between gap-10 lg:py-1">
-
+          {/* LEFT: eyebrow / headline / sub / CTA */}
+          <div
+            ref={leftRef}
+            className="flex flex-col gap-7 lg:justify-between lg:gap-0 lg:py-2"
+          >
+            {/* Text block */}
             <div>
-              <p ref={labelRef} className="section-label mb-7">Why GILD Exists</p>
-              <p ref={quoteRef} className="font-serif text-[26px] leading-[1.45] text-white/90 lg:text-[24px] xl:text-[28px]">
-                We built GILD for operators who still believe conversation matters.
+              <p className="section-label">Why GILD Exists</p>
+              <h2 className="font-serif text-[34px] font-normal leading-[1.07] tracking-[-0.018em] text-white md:text-[42px] lg:text-[48px]">
+                Built for depth,
+                <br className="hidden sm:block" /> not scale.
+              </h2>
+              <p className="mt-5 max-w-[360px] text-[14px] leading-[1.88] text-white/46 lg:max-w-[400px] lg:text-[15px]">
+                Senior operators. Curated rooms. Direct conversation around
+                what&nbsp;is actually working.
               </p>
             </div>
 
-            <div ref={dividerRef} className="h-px shrink-0 bg-[rgba(255,248,235,0.07)]" />
-
-            <div ref={principlesRef} className="space-y-7">
-              {principles.map(({ Icon, title, body }) => (
-                <div key={title} data-principle className="flex gap-4">
-                  <div className="mt-[3px] shrink-0 text-[#5a9a9b]">
-                    <Icon />
-                  </div>
-                  <div>
-                    <p className="font-serif text-[16px] leading-snug text-white/88">{title}</p>
-                    <p className="mt-1.5 text-[13px] leading-[1.75] text-white/42">{body}</p>
-                  </div>
-                </div>
-              ))}
+            {/* CTA */}
+            <div>
+              <button
+                type="button"
+                onClick={requestAccess}
+                className="bg-[#5a9a9b] px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-[#4d8889]"
+              >
+                Request Access
+              </button>
             </div>
+          </div>
 
+          {/* RIGHT: image — desktop only */}
+          <div
+            ref={imgDesktop}
+            className="relative hidden overflow-hidden rounded-card lg:block"
+            style={{ minHeight: "440px" }}
+          >
+            <Image
+              src={EVENT_IMG}
+              alt="GILD dinner — operators in conversation"
+              fill
+              sizes="(min-width: 1024px) 46vw, 100vw"
+              className="object-cover [filter:saturate(0.80)_contrast(1.06)]"
+              style={{ objectPosition: "center 38%" }}
+              priority
+            />
+            {/* dual-gradient: warm bottom fade + very subtle top darkening */}
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,11,9,0.15)_0%,rgba(13,11,9,0.08)_40%,rgba(13,11,9,0.55)_100%)]" />
           </div>
         </div>
+
+        {/* Image — mobile only (below CTA, above pillars) */}
+        <div
+          ref={imgMobile}
+          className="relative mt-8 overflow-hidden rounded-card lg:hidden"
+          style={{ aspectRatio: "16 / 9" }}
+        >
+          <Image
+            src={EVENT_IMG}
+            alt="GILD dinner — operators in conversation"
+            fill
+            sizes="100vw"
+            className="object-cover [filter:saturate(0.80)_contrast(1.06)]"
+            style={{ objectPosition: "center 38%" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b09]/50 via-transparent to-transparent" />
+        </div>
+
+        {/* ─────────────────────────────────────────────────
+            PILLARS — three-column row
+        ───────────────────────────────────────────────── */}
+        <div ref={div1Ref} className="mt-12 h-px bg-[rgba(255,248,235,0.07)]" />
+
+        <div
+          ref={pillarsRef}
+          className="mt-9 grid gap-8 sm:grid-cols-3 sm:gap-6 lg:gap-14"
+        >
+          {pillars.map(({ num, title, body }) => (
+            <div key={num} data-pillar>
+              <p className="text-[11px] font-medium tracking-[0.24em] text-[#5a9a9b]">{num}</p>
+              <h3 className="mt-3 font-serif text-[18px] leading-snug text-white/88">{title}</h3>
+              <div className="mt-2.5 h-px w-6 bg-[#5a9a9b]/35" />
+              <p className="mt-3 text-[13px] leading-[1.8] text-white/38">{body}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* ─────────────────────────────────────────────────
+            FIT FILTER — two slim columns
+        ───────────────────────────────────────────────── */}
+        <div ref={div2Ref} className="mt-11 h-px bg-[rgba(255,248,235,0.07)]" />
+
+        <div className="mt-8 grid gap-8 sm:grid-cols-2 sm:gap-10 lg:gap-20">
+          <div ref={fitRef}>
+            <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-[#5a9a9b]">
+              For
+            </p>
+            <ul className="mt-5 space-y-3">
+              {fitItems.map((item) => (
+                <li key={item} className="flex items-baseline gap-4 text-[13px] leading-[1.72] text-white/72">
+                  <span className="mt-[9px] h-px w-4 shrink-0 bg-[#5a9a9b]/50" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div ref={notFitRef}>
+            <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-white/28">
+              Not for
+            </p>
+            <ul className="mt-5 space-y-3">
+              {notFitItems.map((item) => (
+                <li key={item} className="flex items-baseline gap-4 text-[13px] leading-[1.72] text-white/32">
+                  <span className="mt-[9px] h-px w-4 shrink-0 bg-white/12" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
       </div>
     </section>
   );

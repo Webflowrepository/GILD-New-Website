@@ -44,11 +44,11 @@ export function Hero() {
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-50 [filter:saturate(0.8)_contrast(1.08)]"
+          className="object-cover opacity-70 [filter:saturate(0.85)_contrast(1.06)]"
           style={{ objectPosition: "center 28%" }}
         />
-        <div className="absolute inset-0 bg-black/45" />
-        <div className="absolute inset-0 bg-[linear-gradient(108deg,rgba(5,4,3,0.92)_0%,rgba(5,4,3,0.52)_42%,rgba(5,4,3,0.35)_100%)]" />
+        <div className="absolute inset-0 bg-black/28" />
+        <div className="absolute inset-0 bg-[linear-gradient(108deg,rgba(5,4,3,0.82)_0%,rgba(5,4,3,0.38)_48%,rgba(5,4,3,0.18)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#0d0b09] to-transparent" />
       </div>
 

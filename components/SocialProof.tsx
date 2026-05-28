@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { sponsors } from "@/lib/sponsors";
 import { testimonials } from "@/lib/testimonials";
+import { gsap, ScrollTrigger, reduced } from "@/lib/gsap";
 
 function initials(name: string) {
   return name
@@ -17,6 +18,7 @@ function initials(name: string) {
 export function SocialProof() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const marqueeRef = useRef<HTMLDivElement | null>(null);
+  const logoRowRef = useRef<HTMLDivElement | null>(null);
   const [sectionVisible, setSectionVisible] = useState(false);
   const [marqueeVisible, setMarqueeVisible] = useState(true);
   const [visibleCards, setVisibleCards] = useState<Set<string>>(new Set());
@@ -70,6 +72,25 @@ export function SocialProof() {
     };
   }, []);
 
+  // Scroll-based logo row fade-out
+  useEffect(() => {
+    if (reduced() || !logoRowRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.to(logoRowRef.current, {
+        opacity: 0,
+        y: -18,
+        ease: "none",
+        scrollTrigger: {
+          trigger: logoRowRef.current,
+          start: "top 38%",
+          end: "top -8%",
+          scrub: 0.8,
+        },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
   const hasMarquee = sponsors.length >= 6;
   const logoSet = hasMarquee ? [...sponsors, ...sponsors] : sponsors;
 
@@ -81,6 +102,7 @@ export function SocialProof() {
       }`}
     >
       <div className="section-shell">
+        <div ref={logoRowRef}>
         <p className="mb-16 font-sans text-[10px] font-medium uppercase tracking-[0.32em] text-white/35">
           Companies whose leadership is attending GILD events
         </p>
@@ -133,6 +155,7 @@ export function SocialProof() {
             </div>
           )}
         </div>
+        </div>{/* /logoRowRef */}
         <div className="mt-28 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {testimonials.map((testimonial, index) => (
             <article
