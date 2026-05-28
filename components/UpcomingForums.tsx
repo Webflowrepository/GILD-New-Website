@@ -91,68 +91,68 @@ export function UpcomingForums() {
                 borderColor: event.borderColor,
               }}
             >
-              {/* Left-edge accent */}
+              {/* Left-edge accent — full card height */}
               <div
-                className="pointer-events-none absolute inset-y-0 left-0 w-[3px] rounded-l-[5px]"
+                className="pointer-events-none absolute bottom-0 left-0 top-0 w-[4px]"
                 style={{ backgroundColor: event.borderColor }}
               />
 
               {/* Main row */}
-              <div className="relative flex items-start gap-3 px-4 pb-3 pt-4">
+              <div className="relative flex items-start gap-4 px-5 pb-4 pt-5">
 
                 {/* Left: content */}
                 <div className="min-w-0 flex-1">
                   {/* Date + time */}
-                  <p className="mb-2 text-[11px] font-medium text-white/55">
+                  <p className="mb-2 text-[12px] font-medium text-white/60">
                     {event.date}, {event.meta}
                   </p>
 
                   {/* Title */}
-                  <p className="mb-2 text-[13px] font-bold leading-[1.45] text-white md:text-[14px]">
+                  <p className="mb-2.5 text-[15px] font-bold leading-[1.4] text-white md:text-[16px]">
                     {event.title}
                   </p>
 
                   {/* Description */}
-                  <p className="mb-3 line-clamp-2 text-[12px] leading-[1.65] text-white/50">
+                  <p className="mb-3 line-clamp-2 text-[13px] leading-[1.65] text-white/55">
                     {event.description}
                   </p>
 
                   {/* Location */}
-                  <div className="mb-4 flex items-center gap-1.5 text-[11px] text-white/40">
+                  <div className="mb-5 flex items-center gap-1.5 text-[12px] text-white/45">
                     <PinIcon />
                     <span>{event.locationFull}</span>
                   </div>
 
                   {/* CTA button */}
-                  <span className="inline-block bg-white/10 px-4 py-[7px] text-[11px] font-semibold text-white ring-1 ring-white/30 transition-all duration-300 group-hover:bg-white/18 group-hover:ring-white/50">
+                  <span className="inline-block bg-white/10 px-5 py-2 text-[12px] font-semibold text-white ring-1 ring-white/30 transition-all duration-300 group-hover:bg-white/18 group-hover:ring-white/50">
                     Request Invite
                   </span>
                 </div>
 
                 {/* Right: thumbnail */}
                 <div
-                  className="relative mt-0.5 h-[82px] w-[82px] shrink-0 overflow-hidden rounded-[4px] border"
+                  className="relative mt-0.5 h-[104px] w-[104px] shrink-0 overflow-hidden rounded-[4px] border"
                   style={{ borderColor: event.borderColor, backgroundColor: event.cardColor }}
                 >
                   <Image
                     src={event.coverUrl}
                     alt=""
                     fill
-                    sizes="82px"
-                    className="object-contain p-1"
+                    sizes="104px"
+                    className="object-contain p-1.5"
                     unoptimized
                   />
                 </div>
               </div>
 
               {/* Status badges — bottom right */}
-              <div className="relative flex items-center justify-end gap-1.5 px-4 pb-3">
+              <div className="relative flex items-center justify-end gap-2 px-5 pb-4">
                 {event.isNextUp && (
-                  <span className="bg-[#5a9a9b]/20 px-2 py-[3px] text-[9px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b]">
+                  <span className="bg-[#5a9a9b]/20 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b]">
                     Next Up
                   </span>
                 )}
-                <span className="border border-[#5a9a9b]/40 px-2 py-[3px] text-[9px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b]/80">
+                <span className="border border-[#5a9a9b]/40 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b]/80">
                   Open
                 </span>
               </div>
