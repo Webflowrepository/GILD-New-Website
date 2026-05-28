@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { trackApplyClick } from "@/lib/analytics";
 import { openRequestInviteModal } from "@/components/RequestInviteModal";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8);
@@ -15,6 +16,20 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Imperatively force background on the DOM node so no CSS transition
+  // can interfere — guaranteed to work every time the menu opens.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    if (isOpen) {
+      el.style.backgroundColor = "#0a0806";
+      el.style.borderBottomColor = "rgba(255,248,235,0.07)";
+    } else {
+      el.style.backgroundColor = "";
+      el.style.borderBottomColor = "";
+    }
+  }, [isOpen]);
 
   const apply = () => {
     trackApplyClick("navbar");
@@ -24,15 +39,12 @@ export function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-50 border-b"
-      style={{
-        backgroundColor: isScrolled || isOpen ? "#0a0806" : "transparent",
-        borderColor: isScrolled || isOpen ? "rgba(255,248,235,0.07)" : "transparent",
-        backdropFilter: isScrolled || isOpen ? "blur(12px)" : "none",
-        transition: isOpen
-          ? "none"
-          : "background-color 500ms, border-color 500ms, backdrop-filter 500ms",
-      }}
+      ref={headerRef}
+      className={`sticky top-0 z-50 border-b transition-colors duration-500 ${
+        isScrolled
+          ? "border-[rgba(255,248,235,0.07)] bg-[#0a0806] backdrop-blur-md"
+          : "border-transparent bg-transparent"
+      }`}
     >
       <nav className="section-shell flex h-[72px] items-center justify-between">
         <a href="/" aria-label="GILD home" className="relative h-8 w-24">
