@@ -29,8 +29,7 @@ function SpotifyIcon({ className }: { className?: string }) {
 }
 
 export default function PodcastPage() {
-  const featured = youtubeEpisodes[0];
-  const rest = youtubeEpisodes.slice(1);
+  const allEpisodes = youtubeEpisodes;
 
   return (
     <>
@@ -122,83 +121,6 @@ export default function PodcastPage() {
           </div>
         </section>
 
-        {/* ── Featured Episode ─────────────────────────────────── */}
-        <section className="bg-white pb-0 pt-4">
-          <div className="section-shell">
-            <div className="h-px bg-[#e5e7eb]" />
-            <div className="py-14 md:py-18">
-              <p className="mb-8 text-[15px] font-medium uppercase tracking-[0.18em] text-[#9ca3af]">Latest Episode</p>
-              <a
-                href={featured.url}
-                target="_blank"
-                rel="noreferrer"
-                className="group grid gap-8 lg:grid-cols-[1fr_520px] lg:items-center"
-              >
-                {/* Text */}
-                <div>
-                  <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-[#9ca3af]">
-                    {featured.published} &nbsp;·&nbsp; {featured.duration}
-                  </p>
-                  <h2 className="mt-4 font-serif text-[26px] leading-[1.15] tracking-[-0.015em] text-[#111827] transition-colors duration-300 group-hover:text-[#5a9a9b] md:text-[34px] lg:text-[40px]">
-                    {featured.title}
-                  </h2>
-                  <div className="mt-5 flex items-center gap-3">
-                    <div className="h-px w-4 shrink-0 bg-[#5a9a9b]/50" />
-                    <div>
-                      <p className="text-[13px] font-medium text-[#374151]">{featured.guest}</p>
-                      <p className="text-[12px] text-[#9ca3af]">{featured.guestTitle}</p>
-                    </div>
-                  </div>
-                  <p className="mt-5 max-w-[440px] text-[14px] leading-[1.85] text-[#6b7280]">
-                    {featured.description}
-                  </p>
-                  {/* Tags */}
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {featured.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-[#d1e9ea] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#5a9a9b]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  {/* Watch link */}
-                  <div className="mt-8 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center border border-[#e5e7eb] transition-colors duration-300 group-hover:border-[#d1d5db]">
-                      <YouTubeIcon className="h-4 w-4 text-[#9ca3af] group-hover:text-[#374151]" />
-                    </div>
-                    <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#9ca3af] transition-colors duration-300 group-hover:text-[#374151]">
-                      Watch on YouTube
-                    </span>
-                  </div>
-                </div>
-
-                {/* Thumbnail */}
-                <div className="relative aspect-video overflow-hidden rounded-card border border-[#e5e7eb] bg-[#f3f4f6]">
-                  <Image
-                    src={`https://img.youtube.com/vi/${featured.videoId}/maxresdefault.jpg`}
-                    alt={featured.title}
-                    fill
-                    sizes="(min-width: 1024px) 520px, 100vw"
-                    className="object-cover opacity-95 transition-all duration-500 group-hover:scale-[1.02] group-hover:opacity-100 [filter:saturate(0.9)]"
-                    unoptimized
-                  />
-                  {/* Play overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-lg">
-                      <svg width="18" height="20" viewBox="0 0 18 20" fill="none" aria-hidden>
-                        <path d="M2 1.5L16 10L2 18.5V1.5Z" fill="#111827" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-            <div className="h-px bg-[#e5e7eb]" />
-          </div>
-        </section>
-
         {/* ── All Episodes ─────────────────────────────────────── */}
         <section className="section-pad bg-white">
           <div className="section-shell">
@@ -215,7 +137,7 @@ export default function PodcastPage() {
             </div>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {rest.map((episode) => (
+              {allEpisodes.map((episode) => (
                 <div
                   key={episode.videoId}
                   className="group flex flex-col overflow-hidden rounded-card bg-white shadow-[0_2px_16px_rgba(0,0,0,0.18)] transition-shadow duration-300 hover:shadow-[0_6px_32px_rgba(0,0,0,0.28)]"
