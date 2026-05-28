@@ -8,22 +8,24 @@ import { openRequestInviteModal } from "@/components/RequestInviteModal";
 
 const pillars = [
   {
-    num: "01",
-    title: "Curated rooms",
-    body: "Private, off-the-record dinners and forums.",
-    img: "/images/events/DSC09695.jpg",
+    title: "Access to the Dinners",
+    body: "Curated, in-person AI Forums in Austin, Dallas, and Miami, with more tech hubs launching across the country. Senior leaders only. Off-the-record. Themed around the problems members are actually working through.",
+    img: "/images/Network%201.png",
   },
   {
-    num: "02",
-    title: "Serious operators",
-    body: "Founders, CEOs, CTOs, and engineering leaders.",
-    img: "/images/events/DSC09710.jpg",
+    title: "AI-Powered Matchmaking",
+    body: "Coming soon. Tell us who you want to meet, what you're working on, and what you need help with. Our system, supported by AI, finds the right peers and partners across the network and brokers double-opt-in introductions. You don't have to chase anyone. We do the work.",
+    img: "/images/Network%202.jpg",
   },
   {
-    num: "03",
-    title: "Useful signal",
-    body: "No panels. No demos. No networking theater.",
-    img: "/images/events/DSC09929.jpg",
+    title: "The GILD Community",
+    body: "Coming soon. A private virtual space for members to stay connected between dinners. Share what you're building, ask the network for advice, and keep the conversations going.",
+    img: "/images/Network%203.jpg",
+  },
+  {
+    title: "Insights and Intelligence",
+    body: "The AI Builder Brief newsletter, the GILD podcast, and quarterly intelligence from across the network. The trends, challenges, and decisions senior AI and engineering leaders are navigating, delivered to you.",
+    img: "/images/Network%204.avif",
   },
 ];
 
@@ -39,7 +41,7 @@ const notFitItems = [
   "Surface-level networking.",
 ];
 
-const EVENT_IMG = "/images/DSC09759.jpg";
+const EVENT_IMG = "/images/Network%20Banner.png";
 
 export function WhyGildExists() {
   const sectionRef  = useRef<HTMLElement>(null);
@@ -113,6 +115,7 @@ export function WhyGildExists() {
           sizes="100vw"
           className="object-cover opacity-55 [filter:saturate(0.78)_contrast(1.06)]"
           style={{ objectPosition: "center 38%" }}
+          unoptimized
         />
         {/* Dark overlays */}
         <div className="absolute inset-0 bg-black/50" />
@@ -142,10 +145,10 @@ export function WhyGildExists() {
 
       {/* ── FEATURE CARDS ──────────────────────────────────── */}
       <div className="section-shell section-pad">
-        <div ref={cardsRef} className="grid gap-5 sm:grid-cols-3">
-          {pillars.map(({ num, title, body, img }) => (
+        <div ref={cardsRef} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {pillars.map(({ title, body, img }) => (
             <div
-              key={num}
+              key={title}
               data-pillar
               className="overflow-hidden rounded-card bg-[#0d1822]"
             >
@@ -155,23 +158,20 @@ export function WhyGildExists() {
                   src={img}
                   alt={title}
                   fill
-                  sizes="(min-width: 640px) 33vw, 100vw"
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                   className="object-cover [filter:saturate(0.82)_contrast(1.04)]"
                   style={{ objectPosition: "center 35%" }}
+                  unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0d1822]/60 via-transparent to-transparent" />
               </div>
 
               {/* Text */}
               <div className="p-6">
-                <p className="text-[11px] font-medium tracking-[0.24em] text-[#5a9a9b]">
-                  {num}
-                </p>
-                <h3 className="mt-3 text-[15px] font-bold uppercase tracking-[0.06em] leading-snug text-white">
+                <h3 className="text-[13px] font-bold uppercase tracking-[0.08em] leading-snug text-white">
                   {title}
                 </h3>
-                <div className="mt-2.5 h-px w-6 bg-[#5a9a9b]/40" />
-                <p className="mt-3 text-[13px] leading-[1.8] text-white/50">{body}</p>
+                <p className="mt-3 text-[13px] leading-[1.8] text-white/55">{body}</p>
               </div>
             </div>
           ))}
