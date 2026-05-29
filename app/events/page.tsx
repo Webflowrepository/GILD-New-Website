@@ -35,74 +35,80 @@ function EventCard({ event }: { event: ForumEvent }) {
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-[5px] border border-[#364a5a] transition-all duration-300 hover:border-[#4a6580] hover:shadow-[0_8px_40px_rgba(0,0,0,0.55)]"
+      className="group relative overflow-hidden rounded-[5px] border border-[#364a5a] transition-all duration-300 hover:border-[#4a6580] hover:shadow-[0_6px_32px_rgba(0,0,0,0.5)]"
       style={{ backgroundColor: event.cardColor }}
     >
-      {/* Cover image — full width top */}
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/7" }}>
-        <Image
-          src={event.coverUrl}
-          alt={event.title}
-          fill
-          sizes="(min-width: 768px) 50vw, 100vw"
-          className="object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03]"
-          unoptimized
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+      {/* Main row: content left, thumbnail right */}
+      <div className="flex items-start gap-4 px-5 pb-4 pt-5">
 
-        {/* Badges — top right */}
-        <div className="absolute right-3 top-3 flex items-center gap-2">
-          {event.isNextUp && (
-            <span className="bg-[#5a9a9b]/25 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b] backdrop-blur-sm">
-              Next Up
+        {/* Left: text */}
+        <div className="min-w-0 flex-1">
+          {/* Date + location */}
+          <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span className="flex items-center gap-1.5 text-[12px] text-white/55">
+              <CalIcon />
+              {event.date}, 2026 · {event.meta}
             </span>
-          )}
-          <span className="border border-[#364a5a] bg-black/30 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b]/80 backdrop-blur-sm">
-            {event.status}
-          </span>
+            <span className="flex items-center gap-1.5 text-[12px] text-white/40">
+              <PinIcon />
+              {event.locationFull}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h2 className="mb-2 font-serif text-[16px] font-normal leading-[1.35] text-white transition-colors duration-200 group-hover:text-white/90 md:text-[17px]">
+            {event.title}
+          </h2>
+
+          {/* Description */}
+          <p className="mb-4 line-clamp-2 text-[13px] leading-[1.65] text-white/50">
+            {event.description}
+          </p>
+
+          {/* CTA row */}
+          <div className="flex items-center gap-3">
+            <span className="inline-block border border-[#364a5a] bg-white/[0.07] px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-all duration-300 group-hover:bg-white/[0.13] group-hover:border-[#4a6580]">
+              View Details
+            </span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              className="translate-x-0 text-white/25 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#5a9a9b]"
+              aria-hidden
+            >
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Right: thumbnail */}
+        <div
+          className="relative mt-0.5 h-[100px] w-[100px] shrink-0 overflow-hidden rounded-[4px] border border-[#364a5a]"
+          style={{ backgroundColor: event.cardColor }}
+        >
+          <Image
+            src={event.coverUrl}
+            alt=""
+            fill
+            sizes="100px"
+            className="object-contain p-1.5"
+            unoptimized
+          />
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex flex-1 flex-col p-6">
-        {/* Date + time */}
-        <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span className="flex items-center gap-1.5 text-[13px] text-white/55">
-            <CalIcon />
-            {event.date}, 2026 · {event.meta}
+      {/* Bottom: badges */}
+      <div className="flex items-center justify-end gap-2 px-5 pb-4">
+        {event.isNextUp && (
+          <span className="bg-[#5a9a9b]/20 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b]">
+            Next Up
           </span>
-          <span className="flex items-center gap-1.5 text-[13px] text-white/45">
-            <PinIcon />
-            {event.locationFull}
-          </span>
-        </div>
-
-        {/* Title */}
-        <h2 className="mb-3 font-serif text-[18px] font-normal leading-[1.3] text-white transition-colors duration-200 group-hover:text-white/90 md:text-[20px]">
-          {event.title}
-        </h2>
-
-        {/* Description */}
-        <p className="mb-6 line-clamp-2 flex-1 text-[14px] leading-[1.7] text-white/55">
-          {event.description}
-        </p>
-
-        {/* CTA row */}
-        <div className="flex items-center justify-between">
-          <span className="inline-block border border-[#364a5a] bg-white/[0.07] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white transition-all duration-300 group-hover:bg-white/[0.13] group-hover:border-[#4a6580]">
-            View Details
-          </span>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            className="translate-x-0 text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#5a9a9b]"
-            aria-hidden
-          >
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
+        )}
+        <span className="border border-[#364a5a] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5a9a9b]/70">
+          {event.status}
+        </span>
       </div>
     </Link>
   );
