@@ -4,7 +4,6 @@ import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
 import { Navbar } from "@/components/Navbar";
-import { PastForums } from "@/components/PastForums";
 import { SocialProof } from "@/components/SocialProof";
 import { UpcomingForums } from "@/components/UpcomingForums";
 import { WhyGildExists } from "@/components/WhyGildExists";
@@ -19,7 +18,6 @@ export default function Home() {
         <WhyGildExists />
         <HowItWorks />
         <UpcomingForums />
-        <PastForums />
         <ApplicationForm />
         <FAQ />
       </main>

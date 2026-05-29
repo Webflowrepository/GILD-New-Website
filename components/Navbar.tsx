@@ -123,16 +123,16 @@ export function Navbar() {
 
           {/* Desktop links */}
           <div className="hidden items-center gap-10 md:flex">
-            <a href="/#events" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 transition-colors duration-300 hover:text-white/85 2xl:text-[13px]">
+            <a href="/#events" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-white/75 2xl:text-[13px]">
               Events
             </a>
-            <a href="/#why" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 transition-colors duration-300 hover:text-white/85 2xl:text-[13px]">
+            <a href="/#why" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-white/75 2xl:text-[13px]">
               Network
             </a>
-            <a href="/podcast" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 transition-colors duration-300 hover:text-white/85 2xl:text-[13px]">
+            <a href="/podcast" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-white/75 2xl:text-[13px]">
               Podcast
             </a>
-            <a href="/newsletter" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 transition-colors duration-300 hover:text-white/85 2xl:text-[13px]">
+            <a href="/newsletter" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-white/75 2xl:text-[13px]">
               Newsletter
             </a>
             <button
