@@ -105,7 +105,7 @@ export function Hero() {
 
       {/* Logo strip — visible on load, no scroll needed */}
       <div ref={logosRef} className="relative z-10 border-t border-white/[0.07] bg-black/20 backdrop-blur-sm">
-        <div className="mx-auto max-w-[1600px] px-6 py-6 md:px-12 lg:px-16 xl:px-20 2xl:px-28">
+        <div className="mx-auto max-w-[1920px] px-6 py-6 md:px-12 lg:px-16 xl:px-20 2xl:px-28 3xl:px-36">
           <p className="mb-5 text-center text-[14px] font-medium uppercase tracking-[0.12em] text-white/55">
             Companies whose leadership is attending GILD events
           </p>
