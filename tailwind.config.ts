@@ -22,8 +22,12 @@ const config: Config = {
         },
         white: "#FFFFFF"
       },
+      screens: {
+        "3xl": "1920px",
+        "4xl": "2560px",
+      },
       maxWidth: {
-        content: "1600px"
+        content: "1920px"
       },
       borderRadius: {
         card: "6px"
