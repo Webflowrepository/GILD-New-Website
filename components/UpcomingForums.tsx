@@ -67,20 +67,18 @@ export function UpcomingForums() {
       <div className="section-shell">
 
         {/* Header */}
-        <div ref={headerRef} className="mb-10 flex flex-col gap-0 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h2 className="font-serif text-[32px] font-normal leading-[1.1] tracking-[-0.015em] text-white md:text-[42px] lg:text-[48px] 3xl:text-[58px] 4xl:text-[74px]">
-              Upcoming GILD Events
-            </h2>
-            <p className="mt-4 max-w-xl text-[14px] leading-[1.85] text-white/45 md:text-[15px] 3xl:max-w-2xl 3xl:text-[16px] 4xl:text-[19px]">
-              GILD events are where the network gathers. Curated rooms for senior
-              AI and engineering leaders.{" "}
-              <span className="text-[#5a9a9b]">Invite-only and intentionally small.</span>
-            </p>
-          </div>
+        <div ref={headerRef} className="mb-10 text-center">
+          <h2 className="font-serif text-[32px] font-normal leading-[1.1] tracking-[-0.015em] text-white md:text-[42px] lg:text-[48px] 3xl:text-[58px] 4xl:text-[74px]">
+            Upcoming GILD Events
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-[14px] leading-[1.85] text-white/45 md:text-[15px] 3xl:max-w-2xl 3xl:text-[16px] 4xl:text-[19px]">
+            GILD events are where the network gathers. Curated rooms for senior
+            AI and engineering leaders.{" "}
+            <span className="text-[#5a9a9b]">Invite-only and intentionally small.</span>
+          </p>
           <Link
             href="/events"
-            className="mt-6 inline-flex shrink-0 items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-[#5a9a9b] transition-opacity hover:opacity-70 md:mt-0"
+            className="mt-6 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-[#5a9a9b] transition-opacity hover:opacity-70"
           >
             View all events
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
