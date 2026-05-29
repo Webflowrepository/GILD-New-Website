@@ -55,6 +55,45 @@ function initials(name: string): string {
     .toUpperCase();
 }
 
+// ─── HTML cleaner ──────────────────────────────────────────────────────────
+// Strips Beehiiv email boilerplate (social icons, unsubscribe footer, etc.)
+function cleanNewsletterHtml(raw: string): string {
+  if (typeof document === "undefined") return raw;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(raw, "text/html");
+
+  // Remove elements that contain only images linking to social platforms
+  const socialDomains = ["instagram.com", "linkedin.com", "youtube.com", "twitter.com", "facebook.com", "tiktok.com"];
+  doc.querySelectorAll("a").forEach((a) => {
+    const href = (a.getAttribute("href") ?? "").toLowerCase();
+    const isSocial = socialDomains.some((d) => href.includes(d));
+    if (isSocial) {
+      // Remove the closest block-level ancestor (table cell, div, p, td)
+      const block = a.closest("td, th, div, p, li") ?? a;
+      block.remove();
+    }
+  });
+
+  // Remove empty table rows left behind
+  doc.querySelectorAll("tr").forEach((tr) => {
+    if (!tr.textContent?.trim()) tr.remove();
+  });
+
+  // Remove unsubscribe / footer sections (common Beehiiv patterns)
+  doc.querySelectorAll("*").forEach((el) => {
+    const text = el.textContent?.toLowerCase() ?? "";
+    if (
+      text.includes("unsubscribe") ||
+      text.includes("manage preferences") ||
+      text.includes("you received this email")
+    ) {
+      el.remove();
+    }
+  });
+
+  return doc.body.innerHTML;
+}
+
 // ─── Modal ─────────────────────────────────────────────────────────────────
 
 function PostModal({
@@ -86,7 +125,8 @@ function PostModal({
       })
       .then((data) => {
         // API returns { data: { html: "..." } }
-        setHtml(data?.data?.html ?? data?.html ?? "");
+        const raw = data?.data?.html ?? data?.html ?? "";
+        setHtml(cleanNewsletterHtml(raw));
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
@@ -277,13 +317,13 @@ function NewsletterCard({
         </div>
 
         {/* Title */}
-        <h3 className="text-[15px] font-bold leading-[1.35] text-white/90 transition-colors duration-200 group-hover:text-white">
+        <h3 className="font-serif text-[17px] font-normal leading-[1.3] tracking-[-0.01em] text-white transition-colors duration-200 group-hover:text-white/85">
           {item.title}
         </h3>
 
         {/* Description */}
         {item.description && (
-          <p className="mt-2 line-clamp-3 flex-1 text-[13px] leading-[1.75] text-white/45">
+          <p className="mt-2.5 line-clamp-3 flex-1 text-[13px] leading-[1.8] text-white/50">
             {item.description}
           </p>
         )}
