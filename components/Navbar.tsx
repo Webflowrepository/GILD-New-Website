@@ -3,8 +3,6 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { trackApplyClick } from "@/lib/analytics";
-import { openRequestInviteModal } from "@/components/RequestInviteModal";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,12 +36,6 @@ export function Navbar() {
   }, [isOpen]);
 
   const close = () => setIsOpen(false);
-
-  const apply = () => {
-    trackApplyClick("navbar");
-    close();
-    openRequestInviteModal();
-  };
 
   const menuPortal = mounted && isOpen
     ? createPortal(
@@ -93,13 +85,14 @@ export function Navbar() {
                 {item.label}
               </a>
             ))}
-            <button
-              type="button"
-              onClick={apply}
+            <a
+              href="https://luma.com/gild"
+              target="_blank"
+              rel="noreferrer"
               className="mt-4 w-fit bg-[#5a9a9b] px-6 py-3 text-[11px] font-medium uppercase tracking-[0.16em] text-white"
             >
               Request Access
-            </button>
+            </a>
           </div>
         </div>,
         document.body
@@ -135,13 +128,14 @@ export function Navbar() {
             <a href="/newsletter" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/50 transition-colors duration-300 hover:text-white/85">
               Newsletter
             </a>
-            <button
-              type="button"
-              onClick={apply}
+            <a
+              href="https://luma.com/gild"
+              target="_blank"
+              rel="noreferrer"
               className="bg-[#5a9a9b] px-6 py-2.5 text-[11px] font-medium uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-[#4d8889]"
             >
               Request Access
-            </button>
+            </a>
           </div>
 
           {/* Hamburger */}
