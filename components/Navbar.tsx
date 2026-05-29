@@ -39,6 +39,20 @@ export function Navbar() {
 
   const close = () => setIsOpen(false);
 
+  // Scroll to a section — works from any page
+  const scrollToSection = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    close();
+    const el = document.getElementById(id);
+    if (el) {
+      // Already on homepage — just smooth scroll
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // On another page — navigate to homepage with hash
+      window.location.href = `/#${id}`;
+    }
+  };
+
   const apply = () => {
     trackApplyClick("navbar");
     close();
@@ -79,15 +93,15 @@ export function Navbar() {
           {/* Links */}
           <div className="flex flex-col gap-8 px-6 py-10">
             {[
-              { label: "Events", href: "/#events" },
-              { label: "Network", href: "/#why" },
+              { label: "Events", href: "/#events", sectionId: "events" },
+              { label: "Network", href: "/#why", sectionId: "why" },
               { label: "Podcast", href: "/podcast" },
               { label: "Newsletter", href: "/newsletter" },
             ].map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                onClick={close}
+                onClick={item.sectionId ? scrollToSection(item.sectionId) : close}
                 className="font-serif text-4xl text-white/85 transition-opacity duration-300 hover:opacity-60"
               >
                 {item.label}
@@ -123,10 +137,10 @@ export function Navbar() {
 
           {/* Desktop links */}
           <div className="hidden items-center gap-10 md:flex">
-            <a href="/#events" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-white/75 3xl:text-[13px]">
+            <a href="/#events" onClick={scrollToSection("events")} className="text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-white/75 3xl:text-[13px]">
               Events
             </a>
-            <a href="/#why" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-white/75 3xl:text-[13px]">
+            <a href="/#why" onClick={scrollToSection("why")} className="text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-white/75 3xl:text-[13px]">
               Network
             </a>
             <a href="/podcast" className="text-[11px] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-white/75 3xl:text-[13px]">
