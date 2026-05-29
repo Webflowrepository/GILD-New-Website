@@ -189,7 +189,7 @@ export function HowItWorks() {
                     <p className="text-[72px] font-light leading-none text-[#5a9a9b] 3xl:text-[90px] 4xl:text-[112px]">
                       {step.number}
                     </p>
-                    <h3 className="mt-12 max-w-3xl font-serif text-[28px] leading-[1.12] text-white/92 md:text-[40px] lg:text-[48px] 3xl:text-[58px] 4xl:text-[72px]">
+                    <h3 className="mt-12 max-w-3xl font-serif text-[24px] leading-[1.18] text-white/92 md:text-[28px] lg:text-[32px] 3xl:text-[38px] 4xl:text-[46px]">
                       {step.title}
                     </h3>
                     <p className="mt-7 max-w-2xl text-[15px] leading-[1.9] text-white/55 3xl:text-[17px] 4xl:text-[19px]">
