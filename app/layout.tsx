@@ -34,7 +34,9 @@ export const metadata: Metadata = {
     description:
       "Curated network of senior AI and engineering leaders. Small forums, off-the-record conversations. Austin · Dallas · Miami.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
-    type: "website"
+    type: "website",
+    siteName: "GILD",
+    url: "https://gildhq.com",
   },
   twitter: {
     card: "summary_large_image",

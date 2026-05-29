@@ -1,15 +1,66 @@
-const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#1B2632"/>
-  <text x="100" y="250" fill="#FFFFFF" font-family="Georgia, serif" font-size="92">GILD</text>
-  <text x="100" y="340" fill="#D8E0E8" font-family="Arial, sans-serif" font-size="34">Invite-only network for AI and engineering leaders.</text>
-  <text x="100" y="410" fill="#5DB5B5" font-family="Arial, sans-serif" font-size="26">Austin · Dallas · Miami</text>
-</svg>`;
+import { ImageResponse } from "next/og";
+import React from "react";
+
+export const runtime = "edge";
 
 export function GET() {
-  return new Response(ogSvg, {
-    headers: {
-      "content-type": "image/svg+xml; charset=utf-8",
-      "cache-control": "public, max-age=31536000, immutable"
+  return new ImageResponse(
+    React.createElement(
+      "div",
+      {
+        style: {
+          background: "#1B2632",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          padding: "80px",
+          fontFamily: "sans-serif",
+        },
+      },
+      React.createElement(
+        "div",
+        {
+          style: {
+            color: "#FFFFFF",
+            fontSize: 92,
+            fontWeight: "bold",
+            letterSpacing: "-2px",
+            lineHeight: 1,
+          },
+        },
+        "GILD"
+      ),
+      React.createElement(
+        "div",
+        {
+          style: {
+            color: "#D8E0E8",
+            fontSize: 34,
+            marginTop: 28,
+            lineHeight: 1.3,
+            maxWidth: 800,
+          },
+        },
+        "Invite-only network for AI and engineering leaders."
+      ),
+      React.createElement(
+        "div",
+        {
+          style: {
+            color: "#5DB5B5",
+            fontSize: 26,
+            marginTop: 18,
+            letterSpacing: "0.04em",
+          },
+        },
+        "Austin · Dallas · Miami"
+      )
+    ),
+    {
+      width: 1200,
+      height: 630,
     }
-  });
+  );
 }
